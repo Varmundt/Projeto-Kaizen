@@ -1,11 +1,61 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Projeto Kaizen</title>
 </head>
 <body>
-    <h1>PROJETO KAIZEN</h1>
+    <div class="container">
+        <h1 id="title">Tabela de Hiragana</h1>
+        
+        <div class="button-container">
+            <button id="hiragana-btn" class="active">Hiragana (ひらがな)</button>
+            <button id="katakana-btn">Katakana (カタカナ)</button>
+        </div>
+        
+        <div class="table-container">
+            
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box vowel-a"></div>
+                <span class="legend-text">Vogal A (あ/ア)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box vowel-i"></div>
+                <span class="legend-text">Vogal I (い/イ)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box vowel-u"> </div>
+                <span class="legend-text">Vogal U (う/ウ)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box vowel-e"></div>
+                <span class="legend-text">Vogal E (え/エ)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box vowel-o"></div>
+                <span class="legend-text">Vogal O (お/オ)</span>
+            </div>
+
+            <table id="kana-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th class="header-a">A</th>
+                        <th class="header-i">I</th>
+                        <th class="header-u">U</th>
+                        <th class="header-e">E</th>
+                        <th class="header-o">O</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+        </div>
+    </div>
+<script src="script.js"></script>
 </body>
 </html>
