@@ -3,413 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto Kaizen - Aprenda Hiragana & Katakana</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
+    <title>Kaizen - Hiragana & Katakana</title>
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    <!-- Estilos -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Favicons Essenciais -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicons/favicon-96x96.png">
+    <!-- Apple -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-icon-180x180.png">
+    <!-- Android / PWA -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-icon-192x192.png">
+    <link rel="manifest" href="/favicons/manifest.json">
+    <!-- Cores do tema -->
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff">
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        .logo {
-            background: white;
-            padding: 30px 50px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        .logo h1 {
-            font-size: 3em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        .logo p {
-            font-size: 1.2em;
-            color: #666;
-            font-weight: 500;
-        }
-
-        .mode-selector {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .mode-btn {
-            padding: 15px 40px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .mode-btn.hiragana {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-        }
-
-        .mode-btn.katakana {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-        }
-
-        .mode-btn.quiz {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            color: white;
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
-        }
-
-        .mode-btn.active {
-            transform: scale(1.1);
-        }
-
-        .content-box {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .kana-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .kana-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .kana-card:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .kana-char {
-            font-size: 2.5em;
-            color: white;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .kana-romaji {
-            font-size: 1em;
-            color: rgba(255,255,255,0.9);
-            font-weight: 600;
-        }
-
-        .quiz-section {
-            display: none;
-        }
-
-        .quiz-section.active {
-            display: block;
-        }
-
-        .quiz-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 20px;
-            padding: 60px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .quiz-question {
-            font-size: 6em;
-            color: white;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-
-        .quiz-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .quiz-option {
-            padding: 20px;
-            background: white;
-            border: none;
-            border-radius: 15px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .quiz-option:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
-        }
-
-        .quiz-option.correct {
-            background: #43e97b;
-            color: white;
-        }
-
-        .quiz-option.incorrect {
-            background: #f5576c;
-            color: white;
-        }
-
-        .quiz-stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .stat {
-            background: rgba(255,255,255,0.2);
-            padding: 15px 30px;
-            border-radius: 15px;
-            color: white;
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal.active {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 30px;
-            padding: 50px;
-            max-width: 500px;
-            width: 90%;
-            text-align: center;
-            animation: scaleIn 0.3s ease;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #f5576c;
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 1.5em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            transform: rotate(90deg);
-            background: #d63447;
-        }
-
-        .modal-char {
-            font-size: 10em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-
-        .modal-romaji {
-            font-size: 2.5em;
-            color: #667eea;
-            font-weight: bold;
-            margin-bottom: 30px;
-        }
-
-        .audio-controls {
-            margin-top: 30px;
-        }
-
-        .play-audio-btn {
-            padding: 20px 50px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1.3em;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .play-audio-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
-        }
-
-        .play-audio-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: linear-gradient(135deg, #999 0%, #666 100%);
-        }
-
-        .audio-status {
-            margin-top: 20px;
-            color: #43e97b;
-            font-weight: bold;
-            min-height: 25px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes scaleIn {
-            from { 
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to { 
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .logo h1 {
-                font-size: 2em;
-            }
-
-            .logo p {
-                font-size: 1em;
-            }
-
-            .content-box {
-                padding: 20px;
-            }
-
-            .kana-grid {
-                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-                gap: 10px;
-            }
-
-            .kana-char {
-                font-size: 2em;
-            }
-
-            .quiz-question {
-                font-size: 4em;
-            }
-
-            .quiz-card {
-                padding: 30px;
-            }
-
-            .modal-content {
-                padding: 30px;
-            }
-
-            .modal-char {
-                font-size: 6em;
-            }
-
-            .modal-romaji {
-                font-size: 1.8em;
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <div class="logo">
-                <h1>改善 PROJETO KAIZEN</h1>
+                <h1>改善 Projeto Kaizen</h1>
                 <p>Aprenda Hiragana & Katakana</p>
             </div>
         </div>
@@ -427,6 +44,49 @@
         </div>
 
         <div class="content-box">
+
+            <!-- Balão Informativo Hiragana -->
+            <div id="info-hiragana" class="info-balloon hiragana">
+                <div class="balloon-header" onclick="toggleBalloon('info-hiragana')">
+                    <div class="balloon-title">
+                        <span class="balloon-icon">💡</span>
+                        <span>Sobre o Hiragana</span>
+                    </div>
+                    <button class="balloon-toggle" type="button">−</button>
+                </div>
+                <div class="balloon-content">
+                    O hiragana é o sistema silábico fundamental da língua japonesa. Ele é utilizado para representar palavras de origem japonesa, partículas gramaticais e flexões verbais. Por ser amplamente empregado no cotidiano, constitui a base da leitura e escrita para qualquer estudante de japonês.
+                </div>
+            </div>
+
+            <!-- Balão Informativo Katakana -->
+            <div id="info-katakana" class="info-balloon katakana hidden">
+                <div class="balloon-header" onclick="toggleBalloon('info-katakana')">
+                    <div class="balloon-title">
+                        <span class="balloon-icon">💡</span>
+                        <span>Sobre o Katakana</span>
+                    </div>
+                    <button class="balloon-toggle" type="button">−</button>
+                </div>
+                <div class="balloon-content">
+                    O katakana é um sistema silábico destinado principalmente à escrita de palavras estrangeiras, nomes internacionais, termos técnicos, onomatopeias e expressões que exigem destaque visual. Seu uso é essencial para compreender vocabulário moderno e conteúdos relacionados à cultura global.
+                </div>
+            </div>
+
+            <!-- Balão Informativo Quiz -->
+            <div id="info-quiz" class="info-balloon quiz hidden">
+                <div class="balloon-header" onclick="toggleBalloon('info-quiz')">
+                    <div class="balloon-title">
+                        <span class="balloon-icon">💡</span>
+                        <span>Orientações para o Quiz</span>
+                    </div>
+                    <button class="balloon-toggle" type="button">−</button>
+                </div>
+                <div class="balloon-content">
+                    Em caso de dúvida durante o quiz, você pode acessar novamente a tabela de caracteres para consulta. Seu progresso permanecerá salvo, garantindo uma experiência de estudo contínua e sem interrupções.
+                </div>
+            </div>
+
             <div id="hiragana-section" class="kana-section">
                 <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana (ひらがな)</h2>
                 <div class="kana-grid" id="hiragana-grid"></div>
@@ -458,276 +118,29 @@
                 <div class="modal-char" id="modal-char">あ</div>
                 <div class="modal-romaji" id="modal-romaji">a</div>
                 <div class="audio-controls">
-                    <button class="play-audio-btn" id="play-btn" onclick="playAudio()" disabled>
+                    <button class="play-audio-btn" id="play-btn" onclick="playAudio()">
                         🔊 Reproduzir Pronúncia
                     </button>
-                    <div class="audio-status" id="audio-status"></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        // CONFIGURAÇÃO DE ÁUDIOS
-        // Formato: audio/hiragana/a.mp3, audio/katakana/a.mp3, etc.
-        
-        const hiragana = [
-            {char: 'あ', romaji: 'a', audio: 'audio/hiragana/a.mp3'},
-            {char: 'い', romaji: 'i', audio: 'audio/hiragana/i.mp3'},
-            {char: 'う', romaji: 'u', audio: 'audio/hiragana/u.mp3'},
-            {char: 'え', romaji: 'e', audio: 'audio/hiragana/e.mp3'},
-            {char: 'お', romaji: 'o', audio: 'audio/hiragana/o.mp3'},
-            {char: 'か', romaji: 'ka', audio: 'audio/hiragana/ka.mp3'},
-            {char: 'き', romaji: 'ki', audio: 'audio/hiragana/ki.mp3'},
-            {char: 'く', romaji: 'ku', audio: 'audio/hiragana/ku.mp3'},
-            {char: 'け', romaji: 'ke', audio: 'audio/hiragana/ke.mp3'},
-            {char: 'こ', romaji: 'ko', audio: 'audio/hiragana/ko.mp3'},
-            {char: 'さ', romaji: 'sa', audio: 'audio/hiragana/sa.mp3'},
-            {char: 'し', romaji: 'shi', audio: 'audio/hiragana/shi.mp3'},
-            {char: 'す', romaji: 'su', audio: 'audio/hiragana/su.mp3'},
-            {char: 'せ', romaji: 'se', audio: 'audio/hiragana/se.mp3'},
-            {char: 'そ', romaji: 'so', audio: 'audio/hiragana/so.mp3'},
-            {char: 'た', romaji: 'ta', audio: 'audio/hiragana/ta.mp3'},
-            {char: 'ち', romaji: 'chi', audio: 'audio/hiragana/chi.mp3'},
-            {char: 'つ', romaji: 'tsu', audio: 'audio/hiragana/tsu.mp3'},
-            {char: 'て', romaji: 'te', audio: 'audio/hiragana/te.mp3'},
-            {char: 'と', romaji: 'to', audio: 'audio/hiragana/to.mp3'},
-            {char: 'な', romaji: 'na', audio: 'audio/hiragana/na.mp3'},
-            {char: 'に', romaji: 'ni', audio: 'audio/hiragana/ni.mp3'},
-            {char: 'ぬ', romaji: 'nu', audio: 'audio/hiragana/nu.mp3'},
-            {char: 'ね', romaji: 'ne', audio: 'audio/hiragana/ne.mp3'},
-            {char: 'の', romaji: 'no', audio: 'audio/hiragana/no.mp3'},
-            {char: 'は', romaji: 'ha', audio: 'audio/hiragana/ha.mp3'},
-            {char: 'ひ', romaji: 'hi', audio: 'audio/hiragana/hi.mp3'},
-            {char: 'ふ', romaji: 'fu', audio: 'audio/hiragana/fu.mp3'},
-            {char: 'へ', romaji: 'he', audio: 'audio/hiragana/he.mp3'},
-            {char: 'ほ', romaji: 'ho', audio: 'audio/hiragana/ho.mp3'},
-            {char: 'ま', romaji: 'ma', audio: 'audio/hiragana/ma.mp3'},
-            {char: 'み', romaji: 'mi', audio: 'audio/hiragana/mi.mp3'},
-            {char: 'む', romaji: 'mu', audio: 'audio/hiragana/mu.mp3'},
-            {char: 'め', romaji: 'me', audio: 'audio/hiragana/me.mp3'},
-            {char: 'も', romaji: 'mo', audio: 'audio/hiragana/mo.mp3'},
-            {char: 'や', romaji: 'ya', audio: 'audio/hiragana/ya.mp3'},
-            {char: 'ゆ', romaji: 'yu', audio: 'audio/hiragana/yu.mp3'},
-            {char: 'よ', romaji: 'yo', audio: 'audio/hiragana/yo.mp3'},
-            {char: 'ら', romaji: 'ra', audio: 'audio/hiragana/ra.mp3'},
-            {char: 'り', romaji: 'ri', audio: 'audio/hiragana/ri.mp3'},
-            {char: 'る', romaji: 'ru', audio: 'audio/hiragana/ru.mp3'},
-            {char: 'れ', romaji: 're', audio: 'audio/hiragana/re.mp3'},
-            {char: 'ろ', romaji: 'ro', audio: 'audio/hiragana/ro.mp3'},
-            {char: 'わ', romaji: 'wa', audio: 'audio/hiragana/wa.mp3'},
-            {char: 'を', romaji: 'wo', audio: 'audio/hiragana/wo.mp3'},
-            {char: 'ん', romaji: 'n', audio: 'audio/hiragana/n.mp3'}
-        ];
-
-        const katakana = [
-            {char: 'ア', romaji: 'a', audio: 'audio/katakana/a.mp3'},
-            {char: 'イ', romaji: 'i', audio: 'audio/katakana/i.mp3'},
-            {char: 'ウ', romaji: 'u', audio: 'audio/katakana/u.mp3'},
-            {char: 'エ', romaji: 'e', audio: 'audio/katakana/e.mp3'},
-            {char: 'オ', romaji: 'o', audio: 'audio/katakana/o.mp3'},
-            {char: 'カ', romaji: 'ka', audio: 'audio/katakana/ka.mp3'},
-            {char: 'キ', romaji: 'ki', audio: 'audio/katakana/ki.mp3'},
-            {char: 'ク', romaji: 'ku', audio: 'audio/katakana/ku.mp3'},
-            {char: 'ケ', romaji: 'ke', audio: 'audio/katakana/ke.mp3'},
-            {char: 'コ', romaji: 'ko', audio: 'audio/katakana/ko.mp3'},
-            {char: 'サ', romaji: 'sa', audio: 'audio/katakana/sa.mp3'},
-            {char: 'シ', romaji: 'shi', audio: 'audio/katakana/shi.mp3'},
-            {char: 'ス', romaji: 'su', audio: 'audio/katakana/su.mp3'},
-            {char: 'セ', romaji: 'se', audio: 'audio/katakana/se.mp3'},
-            {char: 'ソ', romaji: 'so', audio: 'audio/katakana/so.mp3'},
-            {char: 'タ', romaji: 'ta', audio: 'audio/katakana/ta.mp3'},
-            {char: 'チ', romaji: 'chi', audio: 'audio/katakana/chi.mp3'},
-            {char: 'ツ', romaji: 'tsu', audio: 'audio/katakana/tsu.mp3'},
-            {char: 'テ', romaji: 'te', audio: 'audio/katakana/te.mp3'},
-            {char: 'ト', romaji: 'to', audio: 'audio/katakana/to.mp3'},
-            {char: 'ナ', romaji: 'na', audio: 'audio/katakana/na.mp3'},
-            {char: 'ニ', romaji: 'ni', audio: 'audio/katakana/ni.mp3'},
-            {char: 'ヌ', romaji: 'nu', audio: 'audio/katakana/nu.mp3'},
-            {char: 'ネ', romaji: 'ne', audio: 'audio/katakana/ne.mp3'},
-            {char: 'ノ', romaji: 'no', audio: 'audio/katakana/no.mp3'},
-            {char: 'ハ', romaji: 'ha', audio: 'audio/katakana/ha.mp3'},
-            {char: 'ヒ', romaji: 'hi', audio: 'audio/katakana/hi.mp3'},
-            {char: 'フ', romaji: 'fu', audio: 'audio/katakana/fu.mp3'},
-            {char: 'ヘ', romaji: 'he', audio: 'audio/katakana/he.mp3'},
-            {char: 'ホ', romaji: 'ho', audio: 'audio/katakana/ho.mp3'},
-            {char: 'マ', romaji: 'ma', audio: 'audio/katakana/ma.mp3'},
-            {char: 'ミ', romaji: 'mi', audio: 'audio/katakana/mi.mp3'},
-            {char: 'ム', romaji: 'mu', audio: 'audio/katakana/mu.mp3'},
-            {char: 'メ', romaji: 'me', audio: 'audio/katakana/me.mp3'},
-            {char: 'モ', romaji: 'mo', audio: 'audio/katakana/mo.mp3'},
-            {char: 'ヤ', romaji: 'ya', audio: 'audio/katakana/ya.mp3'},
-            {char: 'ユ', romaji: 'yu', audio: 'audio/katakana/yu.mp3'},
-            {char: 'ヨ', romaji: 'yo', audio: 'audio/katakana/yo.mp3'},
-            {char: 'ラ', romaji: 'ra', audio: 'audio/katakana/ra.mp3'},
-            {char: 'リ', romaji: 'ri', audio: 'audio/katakana/ri.mp3'},
-            {char: 'ル', romaji: 'ru', audio: 'audio/katakana/ru.mp3'},
-            {char: 'レ', romaji: 're', audio: 'audio/katakana/re.mp3'},
-            {char: 'ロ', romaji: 'ro', audio: 'audio/katakana/ro.mp3'},
-            {char: 'ワ', romaji: 'wa', audio: 'audio/katakana/wa.mp3'},
-            {char: 'ヲ', romaji: 'wo', audio: 'audio/katakana/wo.mp3'},
-            {char: 'ン', romaji: 'n', audio: 'audio/katakana/n.mp3'}
-        ];
-
-        let quizStats = {correct: 0, incorrect: 0, total: 0};
-        let currentQuizData = [];
-        let currentAnswer = '';
-        let currentAudio = null;
-        let currentKana = null;
-
-        function renderKana(data, gridId) {
-            const grid = document.getElementById(gridId);
-            grid.innerHTML = '';
-            data.forEach(kana => {
-                const card = document.createElement('div');
-                card.className = 'kana-card';
-                card.innerHTML = `
-                    <div class="kana-char">${kana.char}</div>
-                    <div class="kana-romaji">${kana.romaji}</div>
-                `;
-                card.onclick = () => openModal(kana);
-                grid.appendChild(card);
-            });
-        }
-
-        function openModal(kana) {
-            currentKana = kana;
-            document.getElementById('modal-char').textContent = kana.char;
-            document.getElementById('modal-romaji').textContent = kana.romaji;
-            document.getElementById('kana-modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Criar ou atualizar o objeto de áudio
-            if (kana.audio) {
-                currentAudio = new Audio(kana.audio);
-                document.getElementById('play-btn').disabled = false;
-                document.getElementById('audio-status').textContent = '✅ Áudio disponível';
-                
-                // Eventos de reprodução
-                currentAudio.onplay = function() {
-                    document.getElementById('audio-status').textContent = '🔊 Reproduzindo...';
-                };
-                currentAudio.onended = function() {
-                    document.getElementById('audio-status').textContent = '✅ Áudio disponível';
-                };
-                currentAudio.onerror = function() {
-                    document.getElementById('audio-status').textContent = '⚠️ Áudio não encontrado';
-                    document.getElementById('play-btn').disabled = true;
-                };
-            } else {
-                currentAudio = null;
-                document.getElementById('play-btn').disabled = true;
-                document.getElementById('audio-status').textContent = '⚠️ Nenhum áudio configurado';
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('kana-modal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio.currentTime = 0;
-            }
-        }
-
-        function playAudio() {
-            if (currentAudio) {
-                currentAudio.currentTime = 0;
-                currentAudio.play();
-            }
-        }
-
-        document.getElementById('kana-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        function changeMode(mode) {
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
-            
-            if (mode === 'hiragana') {
-                document.querySelector('.mode-btn.hiragana').classList.add('active');
-                document.getElementById('hiragana-section').classList.remove('hidden');
-            } else if (mode === 'katakana') {
-                document.querySelector('.mode-btn.katakana').classList.add('active');
-                document.getElementById('katakana-section').classList.remove('hidden');
-            } else if (mode === 'quiz') {
-                document.querySelector('.mode-btn.quiz').classList.add('active');
-                document.getElementById('quiz-section').classList.add('active');
-                startQuiz();
-            }
-        }
-
-        function startQuiz() {
-            currentQuizData = [...hiragana, ...katakana];
-            generateQuestion();
-        }
-
-        function generateQuestion() {
-            const randomKana = currentQuizData[Math.floor(Math.random() * currentQuizData.length)];
-            currentAnswer = randomKana.romaji;
-            
-            document.getElementById('quiz-char').textContent = randomKana.char;
-            
-            const options = [randomKana.romaji];
-            while (options.length < 4) {
-                const randomOption = currentQuizData[Math.floor(Math.random() * currentQuizData.length)].romaji;
-                if (!options.includes(randomOption)) {
-                    options.push(randomOption);
-                }
-            }
-            
-            options.sort(() => Math.random() - 0.5);
-            
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = '';
-            options.forEach(option => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-option';
-                btn.textContent = option;
-                btn.onclick = () => checkAnswer(option, btn);
-                optionsContainer.appendChild(btn);
-            });
-        }
-
-        function checkAnswer(selected, btn) {
-            quizStats.total++;
-            const allButtons = document.querySelectorAll('.quiz-option');
-            allButtons.forEach(b => b.disabled = true);
-            
-            if (selected === currentAnswer) {
-                quizStats.correct++;
-                btn.classList.add('correct');
-            } else {
-                quizStats.incorrect++;
-                btn.classList.add('incorrect');
-                allButtons.forEach(b => {
-                    if (b.textContent === currentAnswer) {
-                        b.classList.add('correct');
-                    }
-                });
-            }
-            
-            updateStats();
-            setTimeout(() => {
-                allButtons.forEach(b => {
-                    b.classList.remove('correct', 'incorrect');
-                    b.disabled = false;
-                });
-                generateQuestion();
-            }, 1500);
-        }
-
-        function updateStats() {
-            document.getElementById('correct-count').textContent = quizStats.correct;
-            document.getElementById('incorrect-count').textContent = quizStats.incorrect;
-            document.getElementById('total-count').textContent = quizStats.total;
-        }
-
-        renderKana(hiragana, 'hiragana-grid');
-        renderKana(katakana, 'katakana-grid');
-    </script>
+    <footer class="footer">
+        <!-- Rodapé -->
+        <div class="footer-content">
+            <h3 class="footer-title">Contatos</h3>
+            <div class="footer-links">
+                <a href="mailto:seuemail@exemplo.com" class="footer-link">
+                    <span>mauriciomilleroliveira@hotmail.com</span>
+                </a>
+                <a href="https://github.com/Varmundt" target="_blank" class="footer-link">
+                    <span>Varmundt</span>
+                </a>
+            </div>
+            <p class="footer-copyright">2025 Projeto Kaizen - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    <!-- Script -->
+    <script src="script.js"></script>
 </body>
 </html>
