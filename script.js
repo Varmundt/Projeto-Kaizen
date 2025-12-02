@@ -225,8 +225,10 @@
         }
 
         // QUIZ
+
         function startQuiz() {
             currentQuizData = [...hiragana, ...katakana];
+            updateStats(); // Adicione esta linha
             generateQuestion();
         }
 
