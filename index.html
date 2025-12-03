@@ -57,10 +57,10 @@
                 </div>
                 <div class="balloon-content">
                     É o primeiro alfabeto japonês que você deve aprender!<br>
-                    Cada símbolo representa um SOM (não uma palavra).<br>
-                    Exemplo: あ = "a"  |  か = "ka"  |  さ = "sa"<br>
-                    Usado para: palavras japonesas nativas, partículas gramaticais.<br><br>
-                    📌 Dica: Clique em cada card para ver e ouvir a pronúncia!
+                    Cada símbolo representa um SOM (não uma palavra).<br><br>
+                    <strong>Exemplo:</strong> あ = "a"  |  か = "ka"  |  さ = "sa"<br><br>
+                    📌 <strong>Usado para:</strong> palavras japonesas nativas, partículas gramaticais.<br>
+                    💡 <strong>Dica:</strong> Clique em cada card para ver e ouvir a pronúncia!
                 </div>
             </div>
 
@@ -75,10 +75,10 @@
                 </div>
                 <div class="balloon-content">
                     É o segundo alfabeto japonês. Tem os MESMOS SONS do Hiragana,
-                    mas com símbolos diferentes.<br>
-                    Exemplo: ア = "a"  |  カ = "ka"  |  サ = "sa"<br>
-                    Usado para: palavras estrangeiras, nomes internacionais, ênfase.<br><br>
-                    📌 Curiosidade: Seu nome em japonês seria escrito em Katakana!
+                    mas com símbolos diferentes.<br><br>
+                    <strong>Exemplo:</strong> ア = "a"  |  カ = "ka"  |  サ = "sa"<br><br>
+                    📌 <strong>Usado para:</strong> palavras estrangeiras, nomes internacionais, ênfase.<br>
+                    💡 <strong>Curiosidade:</strong> Seu nome em japonês seria escrito em Katakana!
                 </div>
             </div>
 
@@ -93,8 +93,8 @@
                 </div>
                 <div class="balloon-content">
                     Testamos se você consegue ler os caracteres!<br>
-                    Você verá um símbolo (ex: あ) e deve escolher a pronúncia correta.<br>
-                    📌 Dica: Estude as tabelas ANTES de fazer o quiz 😉<br>
+                    Você verá um símbolo (ex: あ) e deve escolher a pronúncia correta.<br><br>
+                    📌 <strong>Dica:</strong> Estude as tabelas ANTES de fazer o quiz 😉<br>
                     📌 Você pode voltar para consultar a qualquer momento!
                 </div>
             </div>
@@ -128,7 +128,13 @@
             <div class="modal-content">
                 <button class="modal-close" onclick="closeModal()">✕</button>
                 <div class="modal-char" id="modal-char">あ</div>
-                <div class="modal-romaji" id="modal-romaji">a</div>
+                <div class="modal-romaji-container">
+                    <div class="modal-romaji" id="modal-romaji">a</div>
+                    <div class="romaji-hint">
+                        <span class="hint-icon">ℹ️</span>
+                        <span class="hint-text">Romaji = pronúncia em letras latinas</span>
+                    </div>
+                </div>
                 <div class="audio-controls">
                     <button class="play-audio-btn" id="play-btn" onclick="playAudio()">
                         🔊 Reproduzir Pronúncia
