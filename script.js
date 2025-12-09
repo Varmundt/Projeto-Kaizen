@@ -124,6 +124,172 @@
              null, null, null, null, null, null, null, null, null]
         ];
 
+        // DAKUTEN E HANDAKUTEN - HIRAGANA
+        const hiraganaDakutenTable = [
+            // Linha GA
+            [{char: 'が', romaji: 'ga', audio: 'audio/hiragana/ga.mp3'}, 
+            {char: 'ざ', romaji: 'za', audio: 'audio/hiragana/za.mp3'}, 
+            {char: 'だ', romaji: 'da', audio: 'audio/hiragana/da.mp3'}, 
+            {char: 'ば', romaji: 'ba', audio: 'audio/hiragana/ba.mp3'}, 
+            {char: 'ぱ', romaji: 'pa', audio: 'audio/hiragana/pa.mp3'}],
+            // Linha GI
+            [{char: 'ぎ', romaji: 'gi', audio: 'audio/hiragana/gi.mp3'}, 
+            {char: 'じ', romaji: 'ji', audio: 'audio/hiragana/ji.mp3'}, 
+            {char: 'ぢ', romaji: 'ji', audio: 'audio/hiragana/di.mp3'}, 
+            {char: 'び', romaji: 'bi', audio: 'audio/hiragana/bi.mp3'}, 
+            {char: 'ぴ', romaji: 'pi', audio: 'audio/hiragana/pi.mp3'}],
+            // Linha GU
+            [{char: 'ぐ', romaji: 'gu', audio: 'audio/hiragana/gu.mp3'}, 
+            {char: 'ず', romaji: 'zu', audio: 'audio/hiragana/zu.mp3'}, 
+            {char: 'づ', romaji: 'zu', audio: 'audio/hiragana/du.mp3'}, 
+            {char: 'ぶ', romaji: 'bu', audio: 'audio/hiragana/bu.mp3'}, 
+            {char: 'ぷ', romaji: 'pu', audio: 'audio/hiragana/pu.mp3'}],
+            // Linha GE
+            [{char: 'げ', romaji: 'ge', audio: 'audio/hiragana/ge.mp3'}, 
+            {char: 'ぜ', romaji: 'ze', audio: 'audio/hiragana/ze.mp3'}, 
+            {char: 'で', romaji: 'de', audio: 'audio/hiragana/de.mp3'}, 
+            {char: 'べ', romaji: 'be', audio: 'audio/hiragana/be.mp3'}, 
+            {char: 'ぺ', romaji: 'pe', audio: 'audio/hiragana/pe.mp3'}],
+            // Linha GO
+            [{char: 'ご', romaji: 'go', audio: 'audio/hiragana/go.mp3'}, 
+            {char: 'ぞ', romaji: 'zo', audio: 'audio/hiragana/zo.mp3'}, 
+            {char: 'ど', romaji: 'do', audio: 'audio/hiragana/do.mp3'}, 
+            {char: 'ぼ', romaji: 'bo', audio: 'audio/hiragana/bo.mp3'}, 
+            {char: 'ぽ', romaji: 'po', audio: 'audio/hiragana/po.mp3'}]
+        ];
+
+        // YŌON (JUNÇÕES) - HIRAGANA
+        const hiraganaYoonTable = [
+            // きゃ, しゃ, ちゃ, にゃ, ひゃ, みゃ, りゃ
+            [{char: 'きゃ', romaji: 'kya', audio: 'audio/hiragana/kya.mp3'}, 
+            {char: 'しゃ', romaji: 'sha', audio: 'audio/hiragana/sha.mp3'}, 
+            {char: 'ちゃ', romaji: 'cha', audio: 'audio/hiragana/cha.mp3'}, 
+            {char: 'にゃ', romaji: 'nya', audio: 'audio/hiragana/nya.mp3'}, 
+            {char: 'ひゃ', romaji: 'hya', audio: 'audio/hiragana/hya.mp3'}, 
+            {char: 'みゃ', romaji: 'mya', audio: 'audio/hiragana/mya.mp3'}, 
+            {char: 'りゃ', romaji: 'rya', audio: 'audio/hiragana/rya.mp3'}],
+            // きゅ, しゅ, ちゅ, にゅ, ひゅ, みゅ, りゅ
+            [{char: 'きゅ', romaji: 'kyu', audio: 'audio/hiragana/kyu.mp3'}, 
+            {char: 'しゅ', romaji: 'shu', audio: 'audio/hiragana/shu.mp3'}, 
+            {char: 'ちゅ', romaji: 'chu', audio: 'audio/hiragana/chu.mp3'}, 
+            {char: 'にゅ', romaji: 'nyu', audio: 'audio/hiragana/nyu.mp3'}, 
+            {char: 'ひゅ', romaji: 'hyu', audio: 'audio/hiragana/hyu.mp3'}, 
+            {char: 'みゅ', romaji: 'myu', audio: 'audio/hiragana/myu.mp3'}, 
+            {char: 'りゅ', romaji: 'ryu', audio: 'audio/hiragana/ryu.mp3'}],
+            // きょ, しょ, ちょ, にょ, ひょ, みょ, りょ
+            [{char: 'きょ', romaji: 'kyo', audio: 'audio/hiragana/kyo.mp3'}, 
+            {char: 'しょ', romaji: 'sho', audio: 'audio/hiragana/sho.mp3'}, 
+            {char: 'ちょ', romaji: 'cho', audio: 'audio/hiragana/cho.mp3'}, 
+            {char: 'にょ', romaji: 'nyo', audio: 'audio/hiragana/nyo.mp3'}, 
+            {char: 'ひょ', romaji: 'hyo', audio: 'audio/hiragana/hyo.mp3'}, 
+            {char: 'みょ', romaji: 'myo', audio: 'audio/hiragana/myo.mp3'}, 
+            {char: 'りょ', romaji: 'ryo', audio: 'audio/hiragana/ryo.mp3'}],
+            // ぎゃ, じゃ, びゃ, ぴゃ
+            [{char: 'ぎゃ', romaji: 'gya', audio: 'audio/hiragana/gya.mp3'}, 
+            {char: 'じゃ', romaji: 'ja', audio: 'audio/hiragana/ja.mp3'}, 
+            {char: 'びゃ', romaji: 'bya', audio: 'audio/hiragana/bya.mp3'}, 
+            {char: 'ぴゃ', romaji: 'pya', audio: 'audio/hiragana/pya.mp3'}, 
+            null, null, null],
+            // ぎゅ, じゅ, びゅ, ぴゅ
+            [{char: 'ぎゅ', romaji: 'gyu', audio: 'audio/hiragana/gyu.mp3'}, 
+            {char: 'じゅ', romaji: 'ju', audio: 'audio/hiragana/ju.mp3'}, 
+            {char: 'びゅ', romaji: 'byu', audio: 'audio/hiragana/byu.mp3'}, 
+            {char: 'ぴゅ', romaji: 'pyu', audio: 'audio/hiragana/pyu.mp3'}, 
+            null, null, null],
+            // ぎょ, じょ, びょ, ぴょ
+            [{char: 'ぎょ', romaji: 'gyo', audio: 'audio/hiragana/gyo.mp3'}, 
+            {char: 'じょ', romaji: 'jo', audio: 'audio/hiragana/jo.mp3'}, 
+            {char: 'びょ', romaji: 'byo', audio: 'audio/hiragana/byo.mp3'}, 
+            {char: 'ぴょ', romaji: 'pyo', audio: 'audio/hiragana/pyo.mp3'}, 
+            null, null, null]
+        ];
+
+        // DAKUTEN E HANDAKUTEN - KATAKANA
+        const katakanaDakutenTable = [
+            // Linha GA
+            [{char: 'ガ', romaji: 'ga', audio: 'audio/katakana/ga.mp3'}, 
+            {char: 'ザ', romaji: 'za', audio: 'audio/katakana/za.mp3'}, 
+            {char: 'ダ', romaji: 'da', audio: 'audio/katakana/da.mp3'}, 
+            {char: 'バ', romaji: 'ba', audio: 'audio/katakana/ba.mp3'}, 
+            {char: 'パ', romaji: 'pa', audio: 'audio/katakana/pa.mp3'}],
+            // Linha GI
+            [{char: 'ギ', romaji: 'gi', audio: 'audio/katakana/gi.mp3'}, 
+            {char: 'ジ', romaji: 'ji', audio: 'audio/katakana/ji.mp3'}, 
+            {char: 'ヂ', romaji: 'ji', audio: 'audio/katakana/di.mp3'}, 
+            {char: 'ビ', romaji: 'bi', audio: 'audio/katakana/bi.mp3'}, 
+            {char: 'ピ', romaji: 'pi', audio: 'audio/katakana/pi.mp3'}],
+            // Linha GU
+            [{char: 'グ', romaji: 'gu', audio: 'audio/katakana/gu.mp3'}, 
+            {char: 'ズ', romaji: 'zu', audio: 'audio/katakana/zu.mp3'}, 
+            {char: 'ヅ', romaji: 'zu', audio: 'audio/katakana/du.mp3'}, 
+            {char: 'ブ', romaji: 'bu', audio: 'audio/katakana/bu.mp3'}, 
+            {char: 'プ', romaji: 'pu', audio: 'audio/katakana/pu.mp3'}],
+            // Linha GE
+            [{char: 'ゲ', romaji: 'ge', audio: 'audio/katakana/ge.mp3'}, 
+            {char: 'ゼ', romaji: 'ze', audio: 'audio/katakana/ze.mp3'}, 
+            {char: 'デ', romaji: 'de', audio: 'audio/katakana/de.mp3'}, 
+            {char: 'ベ', romaji: 'be', audio: 'audio/katakana/be.mp3'}, 
+            {char: 'ペ', romaji: 'pe', audio: 'audio/katakana/pe.mp3'}],
+            // Linha GO
+            [{char: 'ゴ', romaji: 'go', audio: 'audio/katakana/go.mp3'}, 
+            {char: 'ゾ', romaji: 'zo', audio: 'audio/katakana/zo.mp3'}, 
+            {char: 'ド', romaji: 'do', audio: 'audio/katakana/do.mp3'}, 
+            {char: 'ボ', romaji: 'bo', audio: 'audio/katakana/bo.mp3'}, 
+            {char: 'ポ', romaji: 'po', audio: 'audio/katakana/po.mp3'}]
+        ];
+
+        // YŌON (JUNÇÕES) - KATAKANA
+        const katakanaYoonTable = [
+            // キャ, シャ, チャ, ニャ, ヒャ, ミャ, リャ
+            [{char: 'キャ', romaji: 'kya', audio: 'audio/katakana/kya.mp3'}, 
+            {char: 'シャ', romaji: 'sha', audio: 'audio/katakana/sha.mp3'}, 
+            {char: 'チャ', romaji: 'cha', audio: 'audio/katakana/cha.mp3'}, 
+            {char: 'ニャ', romaji: 'nya', audio: 'audio/katakana/nya.mp3'}, 
+            {char: 'ヒャ', romaji: 'hya', audio: 'audio/katakana/hya.mp3'}, 
+            {char: 'ミャ', romaji: 'mya', audio: 'audio/katakana/mya.mp3'}, 
+            {char: 'リャ', romaji: 'rya', audio: 'audio/katakana/rya.mp3'}],
+            // キュ, シュ, チュ, ニュ, ヒュ, ミュ, リュ
+            [{char: 'キュ', romaji: 'kyu', audio: 'audio/katakana/kyu.mp3'}, 
+            {char: 'シュ', romaji: 'shu', audio: 'audio/katakana/shu.mp3'}, 
+            {char: 'チュ', romaji: 'chu', audio: 'audio/katakana/chu.mp3'}, 
+            {char: 'ニュ', romaji: 'nyu', audio: 'audio/katakana/nyu.mp3'}, 
+            {char: 'ヒュ', romaji: 'hyu', audio: 'audio/katakana/hyu.mp3'}, 
+            {char: 'ミュ', romaji: 'myu', audio: 'audio/katakana/myu.mp3'}, 
+            {char: 'リュ', romaji: 'ryu', audio: 'audio/katakana/ryu.mp3'}],
+            // キョ, ショ, チョ, ニョ, ヒョ, ミョ, リョ
+            [{char: 'キョ', romaji: 'kyo', audio: 'audio/katakana/kyo.mp3'}, 
+            {char: 'ショ', romaji: 'sho', audio: 'audio/katakana/sho.mp3'}, 
+            {char: 'チョ', romaji: 'cho', audio: 'audio/katakana/cho.mp3'}, 
+            {char: 'ニョ', romaji: 'nyo', audio: 'audio/katakana/nyo.mp3'}, 
+            {char: 'ヒョ', romaji: 'hyo', audio: 'audio/katakana/hyo.mp3'}, 
+            {char: 'ミョ', romaji: 'myo', audio: 'audio/katakana/myo.mp3'}, 
+            {char: 'リョ', romaji: 'ryo', audio: 'audio/katakana/ryo.mp3'}],
+            // ギャ, ジャ, ビャ, ピャ
+            [{char: 'ギャ', romaji: 'gya', audio: 'audio/katakana/gya.mp3'}, 
+            {char: 'ジャ', romaji: 'ja', audio: 'audio/katakana/ja.mp3'}, 
+            {char: 'ビャ', romaji: 'bya', audio: 'audio/katakana/bya.mp3'}, 
+            {char: 'ピャ', romaji: 'pya', audio: 'audio/katakana/pya.mp3'}, 
+            null, null, null],
+            // ギュ, ジュ, ビュ, ピュ
+            [{char: 'ギュ', romaji: 'gyu', audio: 'audio/katakana/gyu.mp3'}, 
+            {char: 'ジュ', romaji: 'ju', audio: 'audio/katakana/ju.mp3'}, 
+            {char: 'ビュ', romaji: 'byu', audio: 'audio/katakana/byu.mp3'}, 
+            {char: 'ピュ', romaji: 'pyu', audio: 'audio/katakana/pyu.mp3'}, 
+            null, null, null],
+            // ギョ, ジョ, ビョ, ピョ
+            [{char: 'ギョ', romaji: 'gyo', audio: 'audio/katakana/gyo.mp3'}, 
+            {char: 'ジョ', romaji: 'jo', audio: 'audio/katakana/jo.mp3'}, 
+            {char: 'ビョ', romaji: 'byo', audio: 'audio/katakana/byo.mp3'}, 
+            {char: 'ピョ', romaji: 'pyo', audio: 'audio/katakana/pyo.mp3'}, 
+            null, null, null]
+        ];
+
+        // Converter em arrays lineares
+        const hiraganaDakuten = hiraganaDakutenTable.flat().filter(k => k !== null);
+        const hiraganaYoon = hiraganaYoonTable.flat().filter(k => k !== null);
+        const katakanaDakuten = katakanaDakutenTable.flat().filter(k => k !== null);
+        const katakanaYoon = katakanaYoonTable.flat().filter(k => k !== null);
+
         // Converter tabelas em arrays lineares para compatibilidade
         const hiragana = hiraganaTable.flat().filter(k => k !== null);
         const katakana = katakanaTable.flat().filter(k => k !== null);
@@ -225,10 +391,16 @@
         }
 
         // QUIZ
-
         function startQuiz() {
-            currentQuizData = [...hiragana, ...katakana];
-            updateStats(); // Adicione esta linha
+            currentQuizData = [
+                ...hiragana, 
+                ...katakana,
+                ...hiraganaDakuten,
+                ...hiraganaYoon,
+                ...katakanaDakuten,
+                ...katakanaYoon
+            ];
+            updateStats();
             generateQuestion();
         }
 
@@ -310,5 +482,159 @@
                 toggleBtn.textContent = '+';
             } else {
                 toggleBtn.textContent = '−';
-            }
+            }}
+        
+        // Variável para controlar o modo atual
+let currentMainMode = 'hiragana';
+let currentSubMode = 'basic';
+
+// Função para mudar modo principal
+function changeMode(mode) {
+    currentMainMode = mode;
+    
+    document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
+    document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
+    
+    if (mode === 'hiragana' || mode === 'katakana') {
+        // Mostrar sub-menu
+        document.getElementById('sub-menu').style.display = 'flex';
+        document.querySelector(`.mode-btn.${mode}`).classList.add('active');
+        
+        // Resetar para o modo básico e ATIVAR o botão correto
+        currentSubMode = 'basic';
+        document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
+        // Buscar especificamente o primeiro botão (Básico) e ativá-lo
+        const basicBtn = document.querySelector('.sub-btn:first-child');
+        if (basicBtn) {
+            basicBtn.classList.add('active');
+        }
+        
+        // Mostrar seção básica
+        if (mode === 'hiragana') {
+            document.getElementById('hiragana-section').classList.remove('hidden');
+            document.getElementById('info-hiragana').classList.remove('hidden');
+        } else {
+            document.getElementById('katakana-section').classList.remove('hidden');
+            document.getElementById('info-katakana').classList.remove('hidden');
+        }
+        
+    } else if (mode === 'quiz') {
+        // Esconder sub-menu
+        document.getElementById('sub-menu').style.display = 'none';
+        document.querySelector('.mode-btn.quiz').classList.add('active');
+        document.getElementById('quiz-section').classList.add('active');
+        document.getElementById('info-quiz').classList.remove('hidden');
+        startQuiz();
+    }
 }
+
+// Função para mudar sub-modo (básico, dakuten, yoon)
+function changeSubMode(subMode) {
+    currentSubMode = subMode;
+    
+    // Atualizar botões ativos
+    document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    // Esconder todas as seções e balões
+    document.querySelectorAll('.kana-section').forEach(section => section.classList.add('hidden'));
+    document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
+    
+    // Mostrar seção e balão correspondente
+    if (currentMainMode === 'hiragana') {
+        if (subMode === 'basic') {
+            document.getElementById('hiragana-section').classList.remove('hidden');
+            document.getElementById('info-hiragana').classList.remove('hidden');
+        } else if (subMode === 'dakuten') {
+            document.getElementById('hiragana-dakuten-section').classList.remove('hidden');
+            document.getElementById('info-hiragana-dakuten').classList.remove('hidden');
+        } else if (subMode === 'yoon') {
+            document.getElementById('hiragana-yoon-section').classList.remove('hidden');
+            document.getElementById('info-hiragana-yoon').classList.remove('hidden');
+        }
+    } else if (currentMainMode === 'katakana') {
+        if (subMode === 'basic') {
+            document.getElementById('katakana-section').classList.remove('hidden');
+            document.getElementById('info-katakana').classList.remove('hidden');
+        } else if (subMode === 'dakuten') {
+            document.getElementById('katakana-dakuten-section').classList.remove('hidden');
+            document.getElementById('info-katakana-dakuten').classList.remove('hidden');
+        } else if (subMode === 'yoon') {
+            document.getElementById('katakana-yoon-section').classList.remove('hidden');
+            document.getElementById('info-katakana-yoon').classList.remove('hidden');
+        }
+    }
+}
+
+// Função para renderizar grid de dakuten (5 colunas)
+function renderDakutenGrid(dataTable, gridId) {
+    const grid = document.getElementById(gridId);
+    grid.innerHTML = '';
+    
+    dataTable.forEach(row => {
+        row.forEach(kana => {
+            const card = document.createElement('div');
+            card.className = 'kana-card';
+            card.innerHTML = `
+                <div class="kana-char">${kana.char}</div>
+                <div class="kana-romaji">${kana.romaji}</div>
+            `;
+            card.onclick = () => openModal(kana);
+            grid.appendChild(card);
+        });
+    });
+}
+
+// Função para renderizar grid de yoon (7 colunas)
+function renderYoonGrid(dataTable, gridId) {
+    const grid = document.getElementById(gridId);
+    grid.innerHTML = '';
+    
+    dataTable.forEach(row => {
+        row.forEach(kana => {
+            if (kana === null) {
+                const emptyCard = document.createElement('div');
+                emptyCard.className = 'kana-card';
+                emptyCard.style.opacity = '0';
+                emptyCard.style.cursor = 'default';
+                grid.appendChild(emptyCard);
+            } else {
+                const card = document.createElement('div');
+                card.className = 'kana-card';
+                card.innerHTML = `
+                    <div class="kana-char">${kana.char}</div>
+                    <div class="kana-romaji">${kana.romaji}</div>
+                `;
+                card.onclick = () => openModal(kana);
+                grid.appendChild(card);
+            }
+        });
+    });
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+    // Forçar o modo Hiragana Básico ao carregar
+    currentMainMode = 'hiragana';
+    currentSubMode = 'basic';
+    
+    document.querySelector('.mode-btn.hiragana').classList.add('active');
+    
+    document.getElementById('sub-menu').style.display = 'flex';
+    
+    document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelector('.sub-btn:first-child').classList.add('active');
+    
+    document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
+    document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
+    
+    document.getElementById('hiragana-section').classList.remove('hidden');
+    document.getElementById('info-hiragana').classList.remove('hidden');
+});
+
+renderKana(hiraganaTable, 'hiragana-grid');
+renderKana(katakanaTable, 'katakana-grid');
+renderDakutenGrid(hiraganaDakutenTable, 'hiragana-dakuten-grid');
+renderDakutenGrid(katakanaDakutenTable, 'katakana-dakuten-grid');
+renderYoonGrid(hiraganaYoonTable, 'hiragana-yoon-grid');
+renderYoonGrid(katakanaYoonTable, 'katakana-yoon-grid');

@@ -44,84 +44,186 @@
             </button>
         </div>
 
+        <!-- SUB-MENU -->
+        <div class="sub-menu" id="sub-menu" style="display: none;">
+            <button class="sub-btn active" onclick="changeSubMode('basic')">Básico</button>
+            <button class="sub-btn" onclick="changeSubMode('dakuten')">Dakuten/Handakuten</button>
+            <button class="sub-btn" onclick="changeSubMode('yoon')">Junções</button>
+        </div>
+
         <div class="content-box">
 
-            <!-- Balão Informativo Hiragana -->
-            <div id="info-hiragana" class="info-balloon hiragana">
-                <div class="balloon-header" onclick="toggleBalloon('info-hiragana')">
-                    <div class="balloon-title">
-                        <span class="balloon-icon">💡</span>
-                        <span>O que é Hiragana?</span>
-                    </div>
-                    <button class="balloon-toggle" type="button">−</button>
+        <!-- Balão Informativo Hiragana Básico -->
+        <div id="info-hiragana" class="info-balloon hiragana">
+            <div class="balloon-header" onclick="toggleBalloon('info-hiragana')">
+                <div class="balloon-title">
+                    <span class="balloon-icon">💡</span>
+                    <span>O que é Hiragana?</span>
                 </div>
-                <div class="balloon-content">
-                    É o primeiro alfabeto japonês que você deve aprender!<br>
-                    Cada símbolo representa um SOM (não uma palavra).<br><br>
-                    <strong>Exemplo:</strong> あ = "a"  |  か = "ka"  |  さ = "sa"<br><br>
-                    📌 <strong>Usado para:</strong> palavras japonesas nativas, partículas gramaticais.<br>
-                    💡 <strong>Dica:</strong> Clique em cada card para ver e ouvir a pronúncia!
-                </div>
+                <button class="balloon-toggle" type="button">−</button>
             </div>
-
-            <!-- Balão Informativo Katakana -->
-            <div id="info-katakana" class="info-balloon katakana hidden">
-                <div class="balloon-header" onclick="toggleBalloon('info-katakana')">
-                    <div class="balloon-title">
-                        <span class="balloon-icon">💡</span>
-                        <span>O que é Katakana?</span>
-                    </div>
-                    <button class="balloon-toggle" type="button">−</button>
-                </div>
-                <div class="balloon-content">
-                    É o segundo alfabeto japonês. Tem os MESMOS SONS do Hiragana,
-                    mas com símbolos diferentes.<br><br>
-                    <strong>Exemplo:</strong> ア = "a"  |  カ = "ka"  |  サ = "sa"<br><br>
-                    📌 <strong>Usado para:</strong> palavras estrangeiras, nomes internacionais, ênfase.<br>
-                    💡 <strong>Curiosidade:</strong> Seu nome em japonês seria escrito em Katakana!
-                </div>
-            </div>
-
-            <!-- Balão Informativo Quiz -->
-            <div id="info-quiz" class="info-balloon quiz hidden">
-                <div class="balloon-header" onclick="toggleBalloon('info-quiz')">
-                    <div class="balloon-title">
-                        <span class="balloon-icon">💡</span>
-                        <span>Como funciona o Quiz?</span>
-                    </div>
-                    <button class="balloon-toggle" type="button">−</button>
-                </div>
-                <div class="balloon-content">
-                    Testamos se você consegue ler os caracteres!<br>
-                    Você verá um símbolo (ex: あ) e deve escolher a pronúncia correta.<br><br>
-                    📌 <strong>Dica:</strong> Estude as tabelas ANTES de fazer o quiz 😉<br>
-                    📌 Você pode voltar para consultar a qualquer momento!
-                </div>
-            </div>
-
-            <div id="hiragana-section" class="kana-section">
-                <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana (ひらがな)</h2>
-                <div class="kana-grid" id="hiragana-grid"></div>
-            </div>
-
-            <div id="katakana-section" class="kana-section hidden">
-                <h2 style="text-align: center; margin-bottom: 20px; color: #4facfe;">Katakana (カタカナ)</h2>
-                <div class="kana-grid" id="katakana-grid"></div>
-            </div>
-
-            <div id="quiz-section" class="quiz-section">
-                <h2 style="text-align: center; margin-bottom: 30px; color: #43e97b;">Quiz de Prática</h2>
-                <div class="quiz-card">
-                    <div class="quiz-question" id="quiz-char">あ</div>
-                    <div class="quiz-options" id="quiz-options"></div>
-                </div>
-                <div class="quiz-stats">
-                    <div class="stat">Corretas: <span id="correct-count">0</span></div>
-                    <div class="stat">Erradas: <span id="incorrect-count">0</span></div>
-                    <div class="stat">Total: <span id="total-count">0</span></div>
-                </div>
+            <div class="balloon-content">
+                É o primeiro alfabeto japonês que você deve aprender!<br>
+                Cada símbolo representa um SOM (não uma palavra).<br><br>
+                <strong>Exemplo:</strong> あ = "a"  |  か = "ka"  |  さ = "sa"<br><br>
+                📌 <strong>Usado para:</strong> palavras japonesas nativas, partículas gramaticais.<br>
+                💡 <strong>Dica:</strong> Clique em cada card para ver e ouvir a pronúncia!
             </div>
         </div>
+
+        <!-- Balão Informativo Hiragana Dakuten -->
+        <div id="info-hiragana-dakuten" class="info-balloon hiragana hidden">
+            <div class="balloon-header" onclick="toggleBalloon('info-hiragana-dakuten')">
+                <div class="balloon-title">
+                    <span class="balloon-icon">🔰</span>
+                    <span>Sinais de Modificação (Dakuten & Handakuten)</span>
+                </div>
+                <button class="balloon-toggle" type="button">−</button>
+            </div>
+            <div class="balloon-content">
+                Os sinais de modificação alteram a pronúncia dos caracteres básicos.<br><br>
+                <strong>Dakuten (゛)</strong>: Torna o som sonoro → か (ka) vira が (ga)<br>
+                <strong>Handakuten (゜)</strong>: Modifica H para P → は (ha) vira ぱ (pa)<br><br>
+                📌 Esses símbolos são essenciais para escrever corretamente muitas palavras!
+            </div>
+        </div>
+
+        <!-- Balão Informativo Hiragana Yōon -->
+        <div id="info-hiragana-yoon" class="info-balloon hiragana hidden">
+            <div class="balloon-header" onclick="toggleBalloon('info-hiragana-yoon')">
+                <div class="balloon-title">
+                    <span class="balloon-icon">📚</span>
+                    <span>Junções (Yōon)</span>
+                </div>
+                <button class="balloon-toggle" type="button">−</button>
+            </div>
+            <div class="balloon-content">
+                Combinações de dois caracteres que formam um único som.<br><br>
+                <strong>Como funciona:</strong> Um caractere da coluna "i" + や/ゆ/よ pequeno<br>
+                <strong>Exemplo:</strong> き (ki) + ゃ (ya pequeno) = きゃ (kya)<br><br>
+                💡 O segundo caractere é sempre escrito menor que o primeiro!
+            </div>
+        </div>
+
+        <!-- Balão Informativo Katakana Básico -->
+        <div id="info-katakana" class="info-balloon katakana hidden">
+            <div class="balloon-header" onclick="toggleBalloon('info-katakana')">
+                <div class="balloon-title">
+                    <span class="balloon-icon">💡</span>
+                    <span>O que é Katakana?</span>
+                </div>
+                <button class="balloon-toggle" type="button">−</button>
+            </div>
+            <div class="balloon-content">
+                É o segundo alfabeto japonês. Tem os MESMOS SONS do Hiragana,
+                mas com símbolos diferentes.<br><br>
+                <strong>Exemplo:</strong> ア = "a"  |  カ = "ka"  |  サ = "sa"<br><br>
+                📌 <strong>Usado para:</strong> palavras estrangeiras, nomes internacionais, ênfase.<br>
+                💡 <strong>Curiosidade:</strong> Seu nome em japonês seria escrito em Katakana!
+            </div>
+        </div>
+
+        <!-- Balão Informativo Katakana Dakuten -->
+        <div id="info-katakana-dakuten" class="info-balloon katakana hidden">
+            <div class="balloon-header" onclick="toggleBalloon('info-katakana-dakuten')">
+                <div class="balloon-title">
+                    <span class="balloon-icon">🔰</span>
+                    <span>Sinais de Modificação (Dakuten & Handakuten)</span>
+                </div>
+                <button class="balloon-toggle" type="button">−</button>
+            </div>
+            <div class="balloon-content">
+                Os sinais de modificação alteram a pronúncia dos caracteres básicos.<br><br>
+                <strong>Dakuten (゛)</strong>: Torna o som sonoro → カ (ka) vira ガ (ga)<br>
+                <strong>Handakuten (゜)</strong>: Modifica H para P → ハ (ha) vira パ (pa)<br><br>
+                📌 Muito usado em palavras estrangeiras e nomes próprios!
+            </div>
+        </div>
+
+        <!-- Balão Informativo Katakana Yōon -->
+        <div id="info-katakana-yoon" class="info-balloon katakana hidden">
+            <div class="balloon-header" onclick="toggleBalloon('info-katakana-yoon')">
+                <div class="balloon-title">
+                    <span class="balloon-icon">📚</span>
+                    <span>Junções (Yōon)</span>
+                </div>
+                <button class="balloon-toggle" type="button">−</button>
+            </div>
+            <div class="balloon-content">
+                Combinações de dois caracteres que formam um único som.<br><br>
+                <strong>Como funciona:</strong> Um caractere da coluna "i" + ャ/ュ/ョ pequeno<br>
+                <strong>Exemplo:</strong> キ (ki) + ャ (ya pequeno) = キャ (kya)<br><br>
+                💡 Muito comum em palavras estrangeiras adaptadas para o japonês!
+            </div>
+        </div>
+
+        <!-- Balão Informativo Quiz -->
+        <div id="info-quiz" class="info-balloon quiz hidden">
+            <div class="balloon-header" onclick="toggleBalloon('info-quiz')">
+                <div class="balloon-title">
+                    <span class="balloon-icon">💡</span>
+                    <span>Como funciona o Quiz?</span>
+                </div>
+                <button class="balloon-toggle" type="button">−</button>
+            </div>
+            <div class="balloon-content">
+                Testamos se você consegue ler os caracteres!<br>
+                Você verá um símbolo (ex: あ) e deve escolher a pronúncia correta.<br><br>
+                📌 <strong>Dica:</strong> Estude as tabelas ANTES de fazer o quiz 😉<br>
+                📌 Você pode voltar para consultar a qualquer momento!
+            </div>
+        </div>
+
+        <!-- HIRAGANA BÁSICO -->
+        <div id="hiragana-section" class="kana-section">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana (ひらがな)</h2>
+            <div class="kana-grid" id="hiragana-grid"></div>
+        </div>
+
+        <!-- HIRAGANA DAKUTEN -->
+        <div id="hiragana-dakuten-section" class="kana-section hidden">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana - Dakuten & Handakuten</h2>
+            <div class="kana-grid-dakuten" id="hiragana-dakuten-grid"></div>
+        </div>
+
+        <!-- HIRAGANA YŌON -->
+        <div id="hiragana-yoon-section" class="kana-section hidden">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana - Junções (Yōon)</h2>
+            <div class="kana-grid-yoon" id="hiragana-yoon-grid"></div>
+        </div>
+
+        <!-- KATAKANA BÁSICO -->
+        <div id="katakana-section" class="kana-section hidden">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #4facfe;">Katakana (カタカナ)</h2>
+            <div class="kana-grid" id="katakana-grid"></div>
+        </div>
+
+        <!-- KATAKANA DAKUTEN -->
+        <div id="katakana-dakuten-section" class="kana-section hidden">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #4facfe;">Katakana - Dakuten & Handakuten</h2>
+            <div class="kana-grid-dakuten" id="katakana-dakuten-grid"></div>
+        </div>
+
+        <!-- KATAKANA YŌON -->
+        <div id="katakana-yoon-section" class="kana-section hidden">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #4facfe;">Katakana - Junções (Yōon)</h2>
+            <div class="kana-grid-yoon" id="katakana-yoon-grid"></div>
+        </div>
+
+        <!-- QUIZ -->
+        <div id="quiz-section" class="quiz-section">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #43e97b;">Quiz de Prática</h2>
+            <div class="quiz-card">
+                <div class="quiz-question" id="quiz-char">あ</div>
+                <div class="quiz-options" id="quiz-options"></div>
+            </div>
+            <div class="quiz-stats">
+                <div class="stat">Corretas: <span id="correct-count">0</span></div>
+                <div class="stat">Erradas: <span id="incorrect-count">0</span></div>
+                <div class="stat">Total: <span id="total-count">0</span></div>
+            </div>
+        </div>
+    </div>
 
         <!-- Modal -->
         <div class="modal" id="kana-modal">

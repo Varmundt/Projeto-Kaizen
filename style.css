@@ -549,6 +549,90 @@ body {
     padding: 20px 30px;
 }
 
+/* SUB-MENU */
+.sub-menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    animation: fadeInDown 0.5s ease-out;
+}
+
+.sub-btn {
+    padding: 10px 25px;
+    font-size: 0.95em;
+    border: 2px solid rgba(102, 126, 234, 0.5);
+    background: white;
+    color: #667eea;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.sub-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    border-color: #667eea;
+}
+
+.sub-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+}
+
+/* GRID DAKUTEN (5 colunas) */
+.kana-grid-dakuten {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/* GRID YŌON (6 colunas) */
+.kana-grid-yoon {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+/* TOOLTIP ROMAJI NO MODAL */
+.modal-romaji-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.romaji-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 0.9em;
+    color: #999;
+    font-style: italic;
+}
+
+.hint-icon {
+    font-size: 1.1em;
+}
+
+.hint-text {
+    font-weight: normal;
+}
+
 /* FOOTER */
 .footer {
     position: relative;
@@ -955,7 +1039,50 @@ body {
         font-size: 0.85em;
         padding: 15px 10px;
     }
+
+    /* SUB-MENU MOBILE */
+    .sub-menu {
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .sub-btn {
+        padding: 8px 15px;
+        font-size: 0.9em;
+        flex: 1 1 auto;
+        min-width: 100px;
+    }
+
+    /* GRIDS RESPONSIVOS */
+    .kana-grid-dakuten {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        max-width: 100%;
+    }
+
+    .kana-grid-yoon {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        max-width: 100%;
+    }
+
+    .info-box {
+        padding: 12px 15px;
+        margin: 15px 10px;
+        font-size: 0.95em;
+    }
+
+    .advanced-header h3 {
+        font-size: 1.3em;
+        margin: 20px 0 10px;
+    }
+
+    .romaji-hint {
+        font-size: 0.8em;
+    }
 }
+
+
 
 /* TELAS MUITO PEQUENAS */
 @media (max-width: 480px) {
@@ -1009,5 +1136,15 @@ body {
     .mode-btn {
         min-width: 120px;
         font-size: 0.95em;
+    }
+
+    .kana-grid-yoon {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    }
+
+    .sub-btn {
+        min-width: 80px;
+        font-size: 0.85em;
     }
 }
