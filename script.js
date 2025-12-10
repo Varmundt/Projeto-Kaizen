@@ -586,29 +586,25 @@ function renderDakutenGrid(dataTable, gridId) {
     });
 }
 
-// Função para renderizar grid de yoon (7 colunas)
+// Função para renderizar grid de yoon
 function renderYoonGrid(dataTable, gridId) {
     const grid = document.getElementById(gridId);
     grid.innerHTML = '';
     
-    dataTable.forEach(row => {
-        row.forEach(kana => {
+    dataTable.forEach((row) => {
+        row.forEach((kana) => {
             if (kana === null) {
-                const emptyCard = document.createElement('div');
-                emptyCard.className = 'kana-card';
-                emptyCard.style.opacity = '0';
-                emptyCard.style.cursor = 'default';
-                grid.appendChild(emptyCard);
-            } else {
-                const card = document.createElement('div');
-                card.className = 'kana-card';
-                card.innerHTML = `
-                    <div class="kana-char">${kana.char}</div>
-                    <div class="kana-romaji">${kana.romaji}</div>
-                `;
-                card.onclick = () => openModal(kana);
-                grid.appendChild(card);
+                return;
             }
+            
+            const card = document.createElement('div');
+            card.className = 'kana-card';
+            card.innerHTML = `
+                <div class="kana-char">${kana.char}</div>
+                <div class="kana-romaji">${kana.romaji}</div>
+            `;
+            card.onclick = () => openModal(kana);
+            grid.appendChild(card);
         });
     });
 }

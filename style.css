@@ -175,11 +175,15 @@ body {
 .kana-section {
     overflow: visible;
     transition: all 0.3s ease;
+    padding: 20px 0;
 }
 
 .kana-section h2 {
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 2em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .table-wrapper {
@@ -232,11 +236,45 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .kana-card:hover {
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.kana-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    transform: rotate(45deg);
+    transition: all 0.5s;
+}
+
+.kana-card:hover::before {
+    animation: shine 0.8s ease-in-out;
+}
+
+@keyframes shine {
+    0% {
+        left: -50%;
+        top: -50%;
+    }
+    100% {
+        left: 150%;
+        top: 150%;
+    }
 }
 
 .kana-char {
@@ -594,22 +632,23 @@ body {
     grid-template-columns: repeat(5, 1fr);
     gap: 15px;
     margin-top: 20px;
-    max-width: 600px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
 }
 
-/* GRID YŌON (6 colunas) */
+/* GRID YŌON (7 colunas) */
 .kana-grid-yoon {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     gap: 15px;
     margin-top: 20px;
-    max-width: 800px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+    grid-auto-flow: dense;
 }
 
 /* TOOLTIP ROMAJI NO MODAL */
@@ -863,6 +902,15 @@ body {
     .kana-card {
         padding: 15px 10px;
         border-radius: 12px;
+        min-height: 90px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .kana-card.invisible {
+        display: none;
     }
 
     .kana-char {
@@ -1069,7 +1117,9 @@ body {
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
         max-width: 100%;
+        justify-items: stretch;
     }
+}
 
     .info-box {
         padding: 12px 15px;
@@ -1085,9 +1135,6 @@ body {
     .romaji-hint {
         font-size: 0.8em;
     }
-}
-
-
 
 /* TELAS MUITO PEQUENAS */
 @media (max-width: 480px) {
@@ -1098,6 +1145,7 @@ body {
 
     .kana-card {
         padding: 12px 8px;
+        min-height: 80px;
     }
 
     .kana-char {
@@ -1143,9 +1191,14 @@ body {
         font-size: 0.95em;
     }
 
+    .kana-grid-dakuten {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+    }
+
     .kana-grid-yoon {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
     }
 
     .sub-btn {
