@@ -1,7 +1,3 @@
-        // CONFIGURAÇÃO DE ÁUDIOS
-        // Coloque os arquivos de áudio na pasta 'audio' do projeto
-        // Formato: audio/hiragana/a.mp3, audio/katakana/a.mp3, etc.
-        // Organização em formato de tabela: A I U E O (colunas)
         const hiraganaTable = [
             // Linha A
             [{char: 'あ', romaji: 'a', audio: 'audio/hiragana/a.mp3'}, 
