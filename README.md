@@ -15,6 +15,9 @@
 
 ## 📖 Sobre o Projeto
 
+- O PROJETO FAZ PARTE DA ATIVIDADE EXTENSIONISTA DA UNINTER E AS INFORMAÇÕES DO README PODÉM ESTAR DEFASADAS VISTO QUE O PROJETO AINDA ESTÁ SENDO CONSTRUIDO.
+A ESTIMATIVA DE CONCLUSÃO É EM DEZEMBRO DE 2026
+
 **Projeto Kaizen** é uma aplicação web educativa e interativa para aprender os dois alfabetos silábicos japoneses: **Hiragana (ひらがな)** e **Katakana (カタカナ)**. O nome "Kaizen" (改善) significa "melhoria contínua" em japonês, refletindo a filosofia de aprendizado progressivo da aplicação.
 
 ### ✨ Características Principais
@@ -75,20 +78,6 @@ Projeto-Kaizen/
 │
 └── README.md           # Documentação do projeto
 ```
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-| Tecnologia | Uso |
-|------------|-----|
-| **HTML5** | Estrutura semântica da aplicação |
-| **CSS3** | Estilização, gradientes e animações |
-| **JavaScript (Vanilla)** | Lógica, interatividade e manipulação do DOM |
-| **Web Audio API** | Reprodução de áudio para pronúncia |
-| **CSS Grid** | Layout responsivo das tabelas |
-| **CSS Animations** | Transições e efeitos visuais |
-
 ---
 
 ## 🐛 Reportar Bugs

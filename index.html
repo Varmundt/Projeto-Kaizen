@@ -42,13 +42,19 @@
             <button class="mode-btn quiz" onclick="changeMode('quiz')">
                 📝 Quiz
             </button>
+            <button class="mode-btn guide" onclick="changeMode('guide')">
+                📖 Como estudar
+            </button>
+            <button class="mode-btn progress" onclick="changeMode('progress')">
+                📊 Progresso
+            </button>
         </div>
 
         <!-- SUB-MENU -->
         <div class="sub-menu" id="sub-menu" style="display: none;">
-            <button class="sub-btn active" onclick="changeSubMode('basic')">Básico</button>
-            <button class="sub-btn" onclick="changeSubMode('dakuten')">Dakuten/Handakuten</button>
-            <button class="sub-btn" onclick="changeSubMode('yoon')">Junções</button>
+            <button class="sub-btn active" onclick="changeSubMode('basic', this)">Básico</button>
+            <button class="sub-btn" onclick="changeSubMode('dakuten', this)">Dakuten/Handakuten</button>
+            <button class="sub-btn" onclick="changeSubMode('yoon', this)">Junções</button>
         </div>
 
         <div class="content-box">
@@ -213,22 +219,94 @@
         <!-- QUIZ -->
         <div id="quiz-section" class="quiz-section">
             <h2 style="text-align: center; margin-bottom: 30px; color: #43e97b;">Quiz de Prática</h2>
+
+            <!-- MODALIDADES DO QUIZ (RF08 e RF09) -->
+            <div class="quiz-type-menu" id="quiz-type-menu">
+                <button class="quiz-type-btn active" onclick="changeQuizType('char-to-romaji', this)">Caractere → Pronúncia</button>
+                <button class="quiz-type-btn" onclick="changeQuizType('romaji-to-char', this)">Pronúncia → Caractere</button>
+            </div>
+
             <div class="quiz-card">
                 <div class="quiz-question" id="quiz-char">あ</div>
                 <div class="quiz-options" id="quiz-options"></div>
+                <button id="quiz-audio-btn" class="quiz-audio-btn hidden" onclick="playQuizAudio()" aria-label="Ouvir pronúncia do caractere">
+                    🔊 Ouvir pronúncia
+                </button>
             </div>
             <div class="quiz-stats">
                 <div class="stat">Corretas: <span id="correct-count">0</span></div>
                 <div class="stat">Erradas: <span id="incorrect-count">0</span></div>
                 <div class="stat">Total: <span id="total-count">0</span></div>
             </div>
+
+            <!-- RESULTADO FINAL + PERCENTUAL (RF14) -->
+            <div class="quiz-actions">
+                <button class="finish-quiz-btn" onclick="finishQuiz()">🏁 Finalizar Quiz</button>
+            </div>
+            <div id="quiz-result" class="quiz-result hidden" role="status" aria-live="polite"></div>
+        </div>
+
+        <!-- COMO ESTUDAR (RF06) -->
+        <div id="guide-section" class="kana-section hidden">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Como estudar</h2>
+            <ol class="guide-list">
+                <li>Comece pelo Hiragana básico.</li>
+                <li>Clique nos caracteres para ouvir a pronúncia.</li>
+                <li>Tente reconhecer os caracteres sem consultar a romanização.</li>
+                <li>Avance para Dakuten, Handakuten e Yōon.</li>
+                <li>Depois pratique no quiz.</li>
+                <li>Revise os caracteres que apresentar maior dificuldade.</li>
+            </ol>
+        </div>
+
+        <!-- PROGRESSO (RF14, RF15, RF16) -->
+        <div id="progress-section" class="kana-section hidden">
+            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Seu Progresso</h2>
+            <div class="progress-grid">
+                <div class="progress-stat">
+                    <span class="progress-label">Quizzes realizados</span>
+                    <span class="progress-value" id="progress-games">0</span>
+                </div>
+                <div class="progress-stat">
+                    <span class="progress-label">Melhor pontuação</span>
+                    <span class="progress-value" id="progress-best">0%</span>
+                </div>
+                <div class="progress-stat">
+                    <span class="progress-label">Acertos</span>
+                    <span class="progress-value" id="progress-correct">0</span>
+                </div>
+                <div class="progress-stat">
+                    <span class="progress-label">Erros</span>
+                    <span class="progress-value" id="progress-incorrect">0</span>
+                </div>
+                <div class="progress-stat">
+                    <span class="progress-label">Percentual geral</span>
+                    <span class="progress-value" id="progress-percent">0%</span>
+                </div>
+            </div>
+            <div class="progress-categories">
+                <div class="progress-category">
+                    <h3>ひらがな Hiragana</h3>
+                    <div class="progress-category-percent" id="progress-hiragana-percent">0%</div>
+                    <div class="progress-category-detail" id="progress-hiragana-detail">0 acertos / 0 erros</div>
+                </div>
+                <div class="progress-category">
+                    <h3>カタカナ Katakana</h3>
+                    <div class="progress-category-percent" id="progress-katakana-percent">0%</div>
+                    <div class="progress-category-detail" id="progress-katakana-detail">0 acertos / 0 erros</div>
+                </div>
+            </div>
+
+            <div class="progress-actions">
+                <button class="reset-progress-btn" onclick="resetProgress()">🗑️ Limpar progresso</button>
+            </div>
         </div>
     </div>
 
         <!-- Modal -->
         <div class="modal" id="kana-modal">
-            <div class="modal-content">
-                <button class="modal-close" onclick="closeModal()">✕</button>
+            <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-char" tabindex="-1">
+                <button class="modal-close" onclick="closeModal()" aria-label="Fechar">✕</button>
                 <div class="modal-char" id="modal-char">あ</div>
                 <div class="modal-romaji-container">
                     <div class="modal-romaji" id="modal-romaji">a</div>
@@ -257,7 +335,7 @@
                     <span>Varmundt</span>
                 </a>
             </div>
-            <p class="footer-copyright">2025 Projeto Kaizen - Todos os direitos reservados.</p>
+            <p class="footer-copyright">2026 Projeto Kaizen - Todos os direitos reservados.</p>
         </div>
     </footer>
     <!-- Script -->

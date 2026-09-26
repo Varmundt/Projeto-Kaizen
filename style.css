@@ -139,6 +139,16 @@ body {
     color: white;
 }
 
+.mode-btn.guide {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.mode-btn.progress {
+    background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+    color: #4a3800;
+}
+
 .mode-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 7px 20px rgba(0,0,0,0.3);
@@ -321,6 +331,27 @@ body {
     margin-top: 30px;
 }
 
+.quiz-audio-btn {
+    display: block;
+    margin: 25px auto 0;
+    padding: 12px 28px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #f5576c;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.quiz-audio-btn:hover {
+    transform: translateY(-2px);
+    background: white;
+    box-shadow: 0 7px 18px rgba(0,0,0,0.25);
+}
+
 .quiz-option {
     padding: 20px;
     background: white;
@@ -373,6 +404,25 @@ body {
 
 .hidden {
     display: none;
+}
+
+/* ESTADOS DE FOCO PARA NAVEGAÇÃO POR TECLADO (RNF07) */
+.kana-card:focus-visible,
+.mode-btn:focus-visible,
+.sub-btn:focus-visible,
+.quiz-type-btn:focus-visible,
+.quiz-option:focus-visible,
+.modal-close:focus-visible,
+.finish-quiz-btn:focus-visible,
+.quiz-audio-btn:focus-visible,
+.reset-progress-btn:focus-visible,
+.play-audio-btn:focus-visible {
+    outline: 3px solid #ffd200;
+    outline-offset: 3px;
+}
+
+.modal-content:focus-visible {
+    outline: none;
 }
 
 /* MODAL */
@@ -624,6 +674,180 @@ body {
     color: white;
     border: 2px solid white;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 2px rgba(102, 126, 234, 0.5);
+}
+
+/* MODALIDADES DO QUIZ (RF08 / RF09) */
+.quiz-type-menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.quiz-type-btn {
+    padding: 10px 20px;
+    font-size: 0.9em;
+    border: 2px solid rgba(67, 233, 123, 0.5);
+    background: white;
+    color: #2f9e5b;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.quiz-type-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(67, 233, 123, 0.3);
+    border-color: #43e97b;
+}
+
+.quiz-type-btn.active {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: 2px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3), 0 0 0 2px rgba(67, 233, 123, 0.5);
+}
+
+/* FINALIZAR QUIZ E RESULTADO (RF14) */
+.quiz-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.finish-quiz-btn {
+    padding: 15px 35px;
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.finish-quiz-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+}
+
+.quiz-result {
+    max-width: 600px;
+    margin: 20px auto 0;
+    padding: 18px 25px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* COMO ESTUDAR (RF06) */
+.guide-list {
+    max-width: 650px;
+    margin: 0 auto;
+    padding-left: 25px;
+    line-height: 2.1;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.guide-list li {
+    margin-bottom: 8px;
+}
+
+/* PROGRESSO (RF14, RF15, RF16) */
+.progress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    max-width: 900px;
+    margin: 20px auto 0;
+}
+
+.progress-stat {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.progress-label {
+    font-size: 0.95em;
+    opacity: 0.9;
+}
+
+.progress-value {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.progress-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    max-width: 700px;
+    margin: 30px auto 0;
+}
+
+.progress-category {
+    background: white;
+    border: 2px solid rgba(102, 126, 234, 0.25);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.progress-category h3 {
+    margin-bottom: 10px;
+    color: #667eea;
+    font-size: 1.2em;
+}
+
+.progress-category-percent {
+    font-size: 2em;
+    font-weight: bold;
+    color: #43e97b;
+    margin-bottom: 5px;
+}
+
+.progress-category-detail {
+    font-size: 0.9em;
+    color: #777;
+}
+
+.progress-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.reset-progress-btn {
+    padding: 12px 30px;
+    background: white;
+    color: #f5576c;
+    border: 2px solid #f5576c;
+    border-radius: 50px;
+    font-size: 0.95em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reset-progress-btn:hover {
+    background: #f5576c;
+    color: white;
 }
 
 /* GRID DAKUTEN (5 colunas) */
@@ -999,6 +1223,33 @@ body {
         padding: 0 10px;
     }
 
+    /* MODALIDADES DO QUIZ E PROGRESSO - MOBILE */
+    .quiz-type-menu {
+        gap: 8px;
+    }
+
+    .quiz-type-btn {
+        padding: 8px 15px;
+        font-size: 0.85em;
+        flex: 1 1 auto;
+        min-width: 130px;
+    }
+
+    .quiz-result {
+        margin: 20px 10px 0;
+        padding: 15px 20px;
+    }
+
+    .progress-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0 10px;
+    }
+
+    .progress-value {
+        font-size: 1.5em;
+    }
+
     .stat {
         width: 100%;
         padding: 12px 20px;
@@ -1119,22 +1370,11 @@ body {
         max-width: 100%;
         justify-items: stretch;
     }
-}
-
-    .info-box {
-        padding: 12px 15px;
-        margin: 15px 10px;
-        font-size: 0.95em;
-    }
-
-    .advanced-header h3 {
-        font-size: 1.3em;
-        margin: 20px 0 10px;
-    }
 
     .romaji-hint {
         font-size: 0.8em;
     }
+}
 
 /* TELAS MUITO PEQUENAS */
 @media (max-width: 480px) {
@@ -1204,5 +1444,13 @@ body {
     .sub-btn {
         min-width: 80px;
         font-size: 0.85em;
+    }
+
+    .progress-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quiz-type-btn {
+        min-width: 100%;
     }
 }

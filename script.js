@@ -280,35 +280,93 @@
             null, null, null]
         ];
 
-        // Converter em arrays lineares
-        const hiraganaDakuten = hiraganaDakutenTable.flat().filter(k => k !== null);
-        const hiraganaYoon = hiraganaYoonTable.flat().filter(k => k !== null);
-        const katakanaDakuten = katakanaDakutenTable.flat().filter(k => k !== null);
-        const katakanaYoon = katakanaYoonTable.flat().filter(k => k !== null);
+        // ============================================================
+        // PREPARO DOS DADOS DE KANA
+        // ============================================================
+        // As tabelas acima (*Table) são matrizes bidimensionais, usadas
+        // para desenhar a grade visual (linhas e colunas). Para o quiz,
+        // o formato mais prático é uma lista simples de kana, sem os
+        // espaços vazios (null) que existem só para preencher a grade.
+        //
+        // Cada kana também recebe uma propriedade "category"
+        // (hiragana ou katakana). Isso permite calcular estatísticas de
+        // progresso separadas por alfabeto (RF16), sem precisar mudar a
+        // estrutura original das tabelas.
+        const hiraganaDakuten = hiraganaDakutenTable.flat().filter(k => k !== null).map(k => ({...k, category: 'hiragana'}));
+        const hiraganaYoon = hiraganaYoonTable.flat().filter(k => k !== null).map(k => ({...k, category: 'hiragana'}));
+        const katakanaDakuten = katakanaDakutenTable.flat().filter(k => k !== null).map(k => ({...k, category: 'katakana'}));
+        const katakanaYoon = katakanaYoonTable.flat().filter(k => k !== null).map(k => ({...k, category: 'katakana'}));
+        const hiragana = hiraganaTable.flat().filter(k => k !== null).map(k => ({...k, category: 'hiragana'}));
+        const katakana = katakanaTable.flat().filter(k => k !== null).map(k => ({...k, category: 'katakana'}));
 
-        // Converter tabelas em arrays lineares para compatibilidade
-        const hiragana = hiraganaTable.flat().filter(k => k !== null);
-        const katakana = katakanaTable.flat().filter(k => k !== null);
+        // ============================================================
+        // ESTADO GLOBAL
+        // ============================================================
+        // Estado de navegação (qual seção/sub-seção está visível).
+        let currentMainMode = 'hiragana';
+        let currentSubMode = 'basic';
 
-        let quizStats = {correct: 0, incorrect: 0, total: 0};
-        let currentQuizData = [];
-        let currentAnswer = '';
-        let currentAudio = null;
-        let currentKana = null;
+        // Estado do quiz.
+        // "categorias" guarda o desempenho da rodada atual, separado por
+        // alfabeto, para alimentar o progresso por categoria (RF16) no
+        // momento em que a rodada é finalizada (ver finishQuiz).
+        let quizStats = {
+            correct: 0, incorrect: 0, total: 0,
+            categorias: {
+                hiragana: { correct: 0, incorrect: 0 },
+                katakana: { correct: 0, incorrect: 0 }
+            }
+        };
+        let currentQuizData = [];        // conjunto de kana disponível para sorteio na rodada atual
+        let currentAnswer = '';          // resposta correta da pergunta em exibição (romaji ou caractere)
+        let currentQuizType = 'char-to-romaji'; // modalidade ativa do quiz: RF08 (padrão) ou RF09
+        let currentQuizKana = null;      // objeto kana completo da pergunta em exibição (usado para tocar áudio)
 
+        // Estado do modal de detalhes de um caractere.
+        let currentAudio = null;         // áudio carregado para o caractere aberto no modal
+        let currentKana = null;          // kana atualmente aberto no modal
+        let lastFocusedElement = null;   // elemento que tinha foco antes do modal abrir (RNF07)
+
+        // ============================================================
+        // ACESSIBILIDADE DOS CARDS DE CARACTERE (RNF07)
+        // ============================================================
+        // Os cards de caractere são <div>, não <button>, porque o layout
+        // visual (grade com espaços vazios, cantos arredondados, efeito
+        // de brilho) foi desenhado em cima de uma div. Para que continuem
+        // operáveis por teclado, cada card recebe manualmente o papel de
+        // botão: foco via tabindex, um rótulo descritivo para leitores de
+        // tela, e ativação pelas teclas Enter e Espaço.
+        function setupCardAccessibility(card, kana) {
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', `Caractere ${kana.char}, romaji ${kana.romaji}. Pressione Enter para ouvir a pronúncia.`);
+            card.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+                    e.preventDefault();
+                    openModal(kana);
+                }
+            });
+        }
+
+        // ============================================================
+        // RENDERIZAÇÃO DAS GRADES DE CARACTERES (RF01, RF02, RF03)
+        // ============================================================
+        // Grade padrão (10 colunas), usada pelo Hiragana e Katakana
+        // básicos. Mantém os espaços vazios da tabela original para que
+        // as colunas continuem alinhadas visualmente; esses espaços são
+        // marcados com aria-hidden para não atrapalhar leitores de tela.
         function renderKana(dataTable, gridId) {
             const grid = document.getElementById(gridId);
             grid.innerHTML = '';
-            
-            // Renderizar a tabela completa incluindo espaços vazios
+
             dataTable.forEach(row => {
                 row.forEach(kana => {
                     if (kana === null) {
-                        // Criar espaço vazio
                         const emptyCard = document.createElement('div');
                         emptyCard.className = 'kana-card';
                         emptyCard.style.opacity = '0';
                         emptyCard.style.cursor = 'default';
+                        emptyCard.setAttribute('aria-hidden', 'true');
                         grid.appendChild(emptyCard);
                     } else {
                         const card = document.createElement('div');
@@ -318,36 +376,110 @@
                             <div class="kana-romaji">${kana.romaji}</div>
                         `;
                         card.onclick = () => openModal(kana);
+                        setupCardAccessibility(card, kana);
                         grid.appendChild(card);
                     }
                 });
             });
         }
 
+        // Grade de Dakuten/Handakuten (5 colunas). Diferente da grade
+        // padrão, aqui não existem espaços vazios a preencher.
+        function renderDakutenGrid(dataTable, gridId) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = '';
+
+            dataTable.forEach(row => {
+                row.forEach(kana => {
+                    const card = document.createElement('div');
+                    card.className = 'kana-card';
+                    card.innerHTML = `
+                        <div class="kana-char">${kana.char}</div>
+                        <div class="kana-romaji">${kana.romaji}</div>
+                    `;
+                    card.onclick = () => openModal(kana);
+                    setupCardAccessibility(card, kana);
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        // Grade de Yōon (7 colunas). Aqui os espaços vazios da tabela
+        // (linhas com menos de 7 combinações) são simplesmente ignorados,
+        // em vez de virarem cards invisíveis.
+        function renderYoonGrid(dataTable, gridId) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = '';
+
+            dataTable.forEach((row) => {
+                row.forEach((kana) => {
+                    if (kana === null) {
+                        return;
+                    }
+
+                    const card = document.createElement('div');
+                    card.className = 'kana-card';
+                    card.innerHTML = `
+                        <div class="kana-char">${kana.char}</div>
+                        <div class="kana-romaji">${kana.romaji}</div>
+                    `;
+                    card.onclick = () => openModal(kana);
+                    setupCardAccessibility(card, kana);
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        // ============================================================
+        // MODAL DE DETALHES DO CARACTERE (RF04, RF05, RNF07)
+        // ============================================================
+        // Abre o modal com o caractere e a romanização (RF04) e prepara
+        // o áudio de pronúncia correspondente (RF05). Também move o foco
+        // do teclado para dentro do modal e guarda o elemento que estava
+        // focado antes, para devolver o foco a ele ao fechar (RNF07).
         function openModal(kana) {
             currentKana = kana;
+            lastFocusedElement = document.activeElement;
+
             document.getElementById('modal-char').textContent = kana.char;
             document.getElementById('modal-romaji').textContent = kana.romaji;
             document.getElementById('kana-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
-            
-            // Criar objeto de áudio se existir
-            if (kana.audio) {
-                currentAudio = new Audio(kana.audio);
-            } else {
-                currentAudio = null;
+
+            currentAudio = kana.audio ? new Audio(kana.audio) : null;
+
+            const modalContent = document.querySelector('#kana-modal .modal-content');
+            if (modalContent) {
+                modalContent.focus();
             }
         }
 
+        // Fecha o modal, interrompe qualquer áudio em reprodução e
+        // devolve o foco ao elemento que o usuário estava usando antes
+        // de abrir o modal (RNF07).
         function closeModal() {
             document.getElementById('kana-modal').classList.remove('active');
             document.body.style.overflow = 'auto';
+
             if (currentAudio) {
                 currentAudio.pause();
                 currentAudio.currentTime = 0;
             }
+
+            if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+                lastFocusedElement.focus();
+            }
         }
 
+        // Fecha o modal com a tecla Esc, um padrão esperado de
+        // acessibilidade para qualquer diálogo modal (RNF07).
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.getElementById('kana-modal').classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Toca (ou reinicia) o áudio do caractere aberto no modal (RF05).
         function playAudio() {
             if (currentAudio) {
                 currentAudio.currentTime = 0;
@@ -357,67 +489,100 @@
             }
         }
 
+        // Clicar fora da caixa do modal (no fundo escurecido) fecha o modal.
         document.getElementById('kana-modal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
             }
         });
-        
-        function changeMode(mode) {
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
-            
-            // Esconder todos os balões
-            document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
-            
-            if (mode === 'hiragana') {
-                document.querySelector('.mode-btn.hiragana').classList.add('active');
-                document.getElementById('hiragana-section').classList.remove('hidden');
-                document.getElementById('info-hiragana').classList.remove('hidden');
-            } else if (mode === 'katakana') {
-                document.querySelector('.mode-btn.katakana').classList.add('active');
-                document.getElementById('katakana-section').classList.remove('hidden');
-                document.getElementById('info-katakana').classList.remove('hidden');
-            } else if (mode === 'quiz') {
-                document.querySelector('.mode-btn.quiz').classList.add('active');
-                document.getElementById('quiz-section').classList.add('active');
-                document.getElementById('info-quiz').classList.remove('hidden');
-                startQuiz();
-            }
-        }
 
-        // QUIZ
+        // ============================================================
+        // QUIZ - CICLO DE PERGUNTAS (RF07, RF08, RF09, RF10)
+        // ============================================================
+        // Monta o conjunto de kana disponível para o quiz (todas as
+        // categorias e variações juntas) e sorteia a primeira pergunta.
+        // Também limpa qualquer resultado de rodada anterior ainda
+        // visível na tela.
         function startQuiz() {
             currentQuizData = [
-                ...hiragana, 
+                ...hiragana,
                 ...katakana,
                 ...hiraganaDakuten,
                 ...hiraganaYoon,
                 ...katakanaDakuten,
                 ...katakanaYoon
             ];
+
+            const resultEl = document.getElementById('quiz-result');
+            if (resultEl) {
+                resultEl.classList.add('hidden');
+                resultEl.textContent = '';
+            }
+
             updateStats();
             generateQuestion();
         }
 
+        // Alterna entre as duas modalidades do quiz: caractere -> pronúncia
+        // (RF08) e pronúncia -> caractere (RF09). A troca gera uma nova
+        // pergunta imediatamente na modalidade escolhida.
+        function changeQuizType(type, btnEl) {
+            currentQuizType = type;
+            document.querySelectorAll('.quiz-type-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnEl) {
+                btnEl.classList.add('active');
+            }
+            generateQuestion();
+        }
+
+        // Sorteia uma nova pergunta (RF10) e monta as alternativas de
+        // múltipla escolha (RF07). O mesmo sorteio é usado nas duas
+        // modalidades do quiz; o que muda é qual campo do kana vira a
+        // pergunta e qual vira as opções de resposta:
+        //   - Caractere -> Pronúncia (RF08): pergunta = char, opções = romaji
+        //   - Pronúncia -> Caractere (RF09): pergunta = romaji, opções = char
+        //
+        // O botão de áudio manual (RF05) só faz sentido na modalidade
+        // Pronúncia -> Caractere, onde o som É a pergunta: nesse caso ele
+        // fica visível o tempo todo e a pronúncia toca automaticamente
+        // assim que a pergunta aparece. Na modalidade Caractere -> Pronúncia,
+        // ouvir o áudio antes de responder entregaria a resposta, então o
+        // botão fica escondido (o áudio de reforço acontece depois de
+        // responder, em checkAnswer).
         function generateQuestion() {
             const randomKana = currentQuizData[Math.floor(Math.random() * currentQuizData.length)];
-            currentAnswer = randomKana.romaji;
-            
-            document.getElementById('quiz-char').textContent = randomKana.char;
-            
-            const options = [randomKana.romaji];
+            currentQuizKana = randomKana;
+
+            const quizCharEl = document.getElementById('quiz-char');
+            const optionsContainer = document.getElementById('quiz-options');
+            const audioBtn = document.getElementById('quiz-audio-btn');
+            optionsContainer.innerHTML = '';
+
+            const field = (currentQuizType === 'romaji-to-char') ? 'char' : 'romaji';
+            currentAnswer = randomKana[field];
+
+            quizCharEl.textContent = (currentQuizType === 'romaji-to-char')
+                ? `"${randomKana.romaji}"`
+                : randomKana.char;
+
+            if (audioBtn) {
+                if (currentQuizType === 'romaji-to-char') {
+                    audioBtn.classList.remove('hidden');
+                    playAudioForKana(randomKana);
+                } else {
+                    audioBtn.classList.add('hidden');
+                }
+            }
+
+            const options = [currentAnswer];
             while (options.length < 4) {
-                const randomOption = currentQuizData[Math.floor(Math.random() * currentQuizData.length)].romaji;
+                const randomOption = currentQuizData[Math.floor(Math.random() * currentQuizData.length)][field];
                 if (!options.includes(randomOption)) {
                     options.push(randomOption);
                 }
             }
-            
             options.sort(() => Math.random() - 0.5);
-            
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = '';
+
             options.forEach(option => {
                 const btn = document.createElement('button');
                 btn.className = 'quiz-option';
@@ -427,16 +592,36 @@
             });
         }
 
+        // Confere a alternativa escolhida, atualiza os contadores (RF13)
+        // e destaca visualmente a resposta certa e a errada (RF11, RF12).
+        //
+        // Feedback sonoro (RF05): cada modalidade toca o áudio de um jeito
+        // diferente, para nunca sobrepor dois sons nem repetir sem motivo:
+        //   - Caractere -> Pronúncia: o áudio ainda não tocou nesta
+        //     pergunta, então toca agora a pronúncia CORRETA, reforçando a
+        //     associação entre o caractere e o som.
+        //   - Pronúncia -> Caractere: o áudio da resposta certa já tocou
+        //     ao abrir a pergunta. Se o usuário errar, toca o áudio do
+        //     caractere que ele ESCOLHEU, para comparar com o som ouvido
+        //     e perceber a diferença. Se acertar, nenhum áudio extra é
+        //     necessário, já que o som ouvido e o caractere escolhido
+        //     já foram confirmados como o mesmo.
         function checkAnswer(selected, btn) {
             quizStats.total++;
             const allButtons = document.querySelectorAll('.quiz-option');
             allButtons.forEach(b => b.disabled = true);
-            
-            if (selected === currentAnswer) {
+
+            const categoria = currentQuizKana ? currentQuizKana.category : null;
+            const statsCategoria = categoria ? quizStats.categorias[categoria] : null;
+            const acertou = selected === currentAnswer;
+
+            if (acertou) {
                 quizStats.correct++;
+                if (statsCategoria) statsCategoria.correct++;
                 btn.classList.add('correct');
             } else {
                 quizStats.incorrect++;
+                if (statsCategoria) statsCategoria.incorrect++;
                 btn.classList.add('incorrect');
                 allButtons.forEach(b => {
                     if (b.textContent === currentAnswer) {
@@ -444,8 +629,18 @@
                     }
                 });
             }
-            
+
             updateStats();
+
+            if (currentQuizType === 'char-to-romaji') {
+                playAudioForKana(currentQuizKana);
+            } else if (!acertou) {
+                const kanaEscolhido = currentQuizData.find(k => k.char === selected);
+                if (kanaEscolhido) {
+                    playAudioForKana(kanaEscolhido);
+                }
+            }
+
             setTimeout(() => {
                 allButtons.forEach(b => {
                     b.classList.remove('correct', 'incorrect');
@@ -455,178 +650,332 @@
             }, 1200);
         }
 
+        // Atualiza os contadores de acertos, erros e total exibidos
+        // durante a rodada em andamento (RF13).
         function updateStats() {
             document.getElementById('correct-count').textContent = quizStats.correct;
             document.getElementById('incorrect-count').textContent = quizStats.incorrect;
             document.getElementById('total-count').textContent = quizStats.total;
         }
 
+        // Toca a pronúncia de um kana qualquer, usado tanto para o áudio
+        // automático da pergunta quanto para o feedback de acerto/erro (RF05).
+        function playAudioForKana(kana) {
+            if (kana && kana.audio) {
+                const audio = new Audio(kana.audio);
+                audio.play().catch(err => {
+                    console.log('Erro ao reproduzir áudio do quiz:', err);
+                });
+            }
+        }
+
+        // Ação do botão manual "Ouvir pronúncia": repete o áudio da
+        // pergunta atualmente em exibição (RF05).
+        function playQuizAudio() {
+            playAudioForKana(currentQuizKana);
+        }
+
+        // ============================================================
+        // PROGRESSO (RF14, RF15, RF16)
+        // ============================================================
+        const KAIZEN_PROGRESS_KEY = 'kaizenProgress';
+
+        // Formato padrão de progresso salvo: totais gerais e totais
+        // separados por categoria (hiragana/katakana).
+        function defaultProgressData() {
+            return {
+                quizzesRealizados: 0,
+                acertos: 0,
+                erros: 0,
+                melhorPontuacao: 0,
+                categorias: {
+                    hiragana: { acertos: 0, erros: 0 },
+                    katakana: { acertos: 0, erros: 0 }
+                }
+            };
+        }
+
+        // Lê o progresso salvo no navegador (RF15). Os valores são
+        // validados individualmente e combinados com o formato padrão,
+        // para continuar funcionando mesmo com dados salvos por uma
+        // versão anterior do site (ex.: sem o campo "categorias").
+        function loadProgressData() {
+            const defaults = defaultProgressData();
+            try {
+                const raw = localStorage.getItem(KAIZEN_PROGRESS_KEY);
+                if (!raw) {
+                    return defaults;
+                }
+
+                const parsed = JSON.parse(raw);
+                return {
+                    quizzesRealizados: Number(parsed.quizzesRealizados) || 0,
+                    acertos: Number(parsed.acertos) || 0,
+                    erros: Number(parsed.erros) || 0,
+                    melhorPontuacao: Number(parsed.melhorPontuacao) || 0,
+                    categorias: {
+                        hiragana: {
+                            acertos: Number(parsed?.categorias?.hiragana?.acertos) || 0,
+                            erros: Number(parsed?.categorias?.hiragana?.erros) || 0
+                        },
+                        katakana: {
+                            acertos: Number(parsed?.categorias?.katakana?.acertos) || 0,
+                            erros: Number(parsed?.categorias?.katakana?.erros) || 0
+                        }
+                    }
+                };
+            } catch (err) {
+                console.log('Não foi possível ler o progresso salvo:', err);
+                return defaults;
+            }
+        }
+
+        // Grava o progresso no localStorage (RF15). Falhas de gravação
+        // (ex.: modo de navegação privada) são registradas no console,
+        // sem interromper o uso do site.
+        function saveProgressData(data) {
+            try {
+                localStorage.setItem(KAIZEN_PROGRESS_KEY, JSON.stringify(data));
+            } catch (err) {
+                console.log('Não foi possível salvar o progresso:', err);
+            }
+        }
+
+        // Calcula um percentual de acerto a partir de acertos e erros,
+        // evitando divisão por zero quando ainda não há respostas.
+        function percentual(acertos, erros) {
+            const total = acertos + erros;
+            return total > 0 ? Math.round((acertos / total) * 100) : 0;
+        }
+
+        // Preenche a aba "Progresso" com os dados salvos: totais gerais
+        // e o detalhamento por categoria (RF16).
+        function renderProgress() {
+            const data = loadProgressData();
+
+            document.getElementById('progress-games').textContent = data.quizzesRealizados;
+            document.getElementById('progress-best').textContent = data.melhorPontuacao + '%';
+            document.getElementById('progress-correct').textContent = data.acertos;
+            document.getElementById('progress-incorrect').textContent = data.erros;
+            document.getElementById('progress-percent').textContent = percentual(data.acertos, data.erros) + '%';
+
+            document.getElementById('progress-hiragana-percent').textContent =
+                percentual(data.categorias.hiragana.acertos, data.categorias.hiragana.erros) + '%';
+            document.getElementById('progress-hiragana-detail').textContent =
+                `${data.categorias.hiragana.acertos} acertos / ${data.categorias.hiragana.erros} erros`;
+
+            document.getElementById('progress-katakana-percent').textContent =
+                percentual(data.categorias.katakana.acertos, data.categorias.katakana.erros) + '%';
+            document.getElementById('progress-katakana-detail').textContent =
+                `${data.categorias.katakana.acertos} acertos / ${data.categorias.katakana.erros} erros`;
+        }
+
+        // Apaga todo o progresso salvo, mediante confirmação do usuário.
+        function resetProgress() {
+            const confirmar = window.confirm('Tem certeza que deseja apagar todo o progresso salvo?');
+            if (!confirmar) return;
+            saveProgressData(defaultProgressData());
+            renderProgress();
+        }
+
+        // Exibe uma mensagem no painel de resultado do quiz.
+        function showQuizResult(message) {
+            const resultEl = document.getElementById('quiz-result');
+            if (!resultEl) return;
+            resultEl.textContent = message;
+            resultEl.classList.remove('hidden');
+        }
+
+        // Encerra a rodada atual do quiz: calcula o percentual de acerto
+        // (RF14), soma o resultado ao progresso salvo, total e por
+        // categoria (RF15), e reinicia os contadores para uma nova rodada.
+        function finishQuiz() {
+            if (quizStats.total === 0) {
+                showQuizResult('Responda pelo menos uma pergunta antes de finalizar o quiz.');
+                return;
+            }
+
+            const percentualRodada = Math.round((quizStats.correct / quizStats.total) * 100);
+            const progress = loadProgressData();
+
+            progress.quizzesRealizados += 1;
+            progress.acertos += quizStats.correct;
+            progress.erros += quizStats.incorrect;
+            progress.melhorPontuacao = Math.max(progress.melhorPontuacao, percentualRodada);
+            progress.categorias.hiragana.acertos += quizStats.categorias.hiragana.correct;
+            progress.categorias.hiragana.erros += quizStats.categorias.hiragana.incorrect;
+            progress.categorias.katakana.acertos += quizStats.categorias.katakana.correct;
+            progress.categorias.katakana.erros += quizStats.categorias.katakana.incorrect;
+            saveProgressData(progress);
+
+            showQuizResult(
+                `Quiz finalizado! Você acertou ${quizStats.correct} de ${quizStats.total} (${percentualRodada}%). Resultado salvo no seu progresso.`
+            );
+
+            quizStats = {
+                correct: 0, incorrect: 0, total: 0,
+                categorias: {
+                    hiragana: { correct: 0, incorrect: 0 },
+                    katakana: { correct: 0, incorrect: 0 }
+                }
+            };
+            updateStats();
+            generateQuestion();
+        }
+
+        // Renderização inicial das grades básicas, para que o conteúdo já
+        // apareça assim que o script carrega (antes do DOMContentLoaded
+        // decidir qual seção fica visível).
         renderKana(hiraganaTable, 'hiragana-grid');
         renderKana(katakanaTable, 'katakana-grid');
 
-        // Balões de Texto
+        // ============================================================
+        // BALÕES INFORMATIVOS
+        // ============================================================
+        // Expande ou recolhe o texto explicativo de cada seção (o que é
+        // Hiragana, Dakuten, etc.), alternando o ícone do botão.
         function toggleBalloon(balloonId) {
             const balloon = document.getElementById(balloonId);
             const content = balloon.querySelector('.balloon-content');
             const toggleBtn = balloon.querySelector('.balloon-toggle');
-            
+
             content.classList.toggle('collapsed');
             balloon.classList.toggle('collapsed');
-            
-            // Atualizar o ícone do botão
-            if (content.classList.contains('collapsed')) {
-                toggleBtn.textContent = '+';
-            } else {
-                toggleBtn.textContent = '−';
-            }}
-        
-        // Variável para controlar o modo atual
-let currentMainMode = 'hiragana';
-let currentSubMode = 'basic';
 
-// Função para mudar modo principal
-function changeMode(mode) {
-    currentMainMode = mode;
-    
-    document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
-    document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
-    
-    if (mode === 'hiragana' || mode === 'katakana') {
-        // Mostrar sub-menu
-        document.getElementById('sub-menu').style.display = 'flex';
-        document.querySelector(`.mode-btn.${mode}`).classList.add('active');
-        
-        // Resetar para o modo básico e ATIVAR o botão correto
-        currentSubMode = 'basic';
-        document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
-        // Buscar especificamente o primeiro botão (Básico) e ativá-lo
-        const basicBtn = document.querySelector('.sub-btn:first-child');
-        if (basicBtn) {
-            basicBtn.classList.add('active');
+            toggleBtn.textContent = content.classList.contains('collapsed') ? '+' : '−';
         }
-        
-        // Mostrar seção básica
-        if (mode === 'hiragana') {
-            document.getElementById('hiragana-section').classList.remove('hidden');
-            document.getElementById('info-hiragana').classList.remove('hidden');
-        } else {
-            document.getElementById('katakana-section').classList.remove('hidden');
-            document.getElementById('info-katakana').classList.remove('hidden');
-        }
-        
-    } else if (mode === 'quiz') {
-        // Esconder sub-menu
-        document.getElementById('sub-menu').style.display = 'none';
-        document.querySelector('.mode-btn.quiz').classList.add('active');
-        document.getElementById('quiz-section').classList.add('active');
-        document.getElementById('info-quiz').classList.remove('hidden');
-        startQuiz();
-    }
-}
 
-// Função para mudar sub-modo (básico, dakuten, yoon)
-function changeSubMode(subMode) {
-    currentSubMode = subMode;
-    
-    // Atualizar botões ativos
-    document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
-    
-    // Esconder todas as seções e balões
-    document.querySelectorAll('.kana-section').forEach(section => section.classList.add('hidden'));
-    document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
-    
-    // Mostrar seção e balão correspondente
-    if (currentMainMode === 'hiragana') {
-        if (subMode === 'basic') {
-            document.getElementById('hiragana-section').classList.remove('hidden');
-            document.getElementById('info-hiragana').classList.remove('hidden');
-        } else if (subMode === 'dakuten') {
-            document.getElementById('hiragana-dakuten-section').classList.remove('hidden');
-            document.getElementById('info-hiragana-dakuten').classList.remove('hidden');
-        } else if (subMode === 'yoon') {
-            document.getElementById('hiragana-yoon-section').classList.remove('hidden');
-            document.getElementById('info-hiragana-yoon').classList.remove('hidden');
-        }
-    } else if (currentMainMode === 'katakana') {
-        if (subMode === 'basic') {
-            document.getElementById('katakana-section').classList.remove('hidden');
-            document.getElementById('info-katakana').classList.remove('hidden');
-        } else if (subMode === 'dakuten') {
-            document.getElementById('katakana-dakuten-section').classList.remove('hidden');
-            document.getElementById('info-katakana-dakuten').classList.remove('hidden');
-        } else if (subMode === 'yoon') {
-            document.getElementById('katakana-yoon-section').classList.remove('hidden');
-            document.getElementById('info-katakana-yoon').classList.remove('hidden');
-        }
-    }
-}
+        // ============================================================
+        // NAVEGAÇÃO ENTRE MODOS E SUB-MODOS
+        // ============================================================
+        // Alterna entre as seções principais do menu: Hiragana, Katakana,
+        // Quiz, Como Estudar (RF06) e Progresso (RF16). Também controla
+        // a visibilidade do sub-menu (básico/dakuten/yōon) e do menu de
+        // modalidade do quiz, que só fazem sentido em determinados modos.
+        function changeMode(mode) {
+            currentMainMode = mode;
 
-// Função para renderizar grid de dakuten (5 colunas)
-function renderDakutenGrid(dataTable, gridId) {
-    const grid = document.getElementById(gridId);
-    grid.innerHTML = '';
-    
-    dataTable.forEach(row => {
-        row.forEach(kana => {
-            const card = document.createElement('div');
-            card.className = 'kana-card';
-            card.innerHTML = `
-                <div class="kana-char">${kana.char}</div>
-                <div class="kana-romaji">${kana.romaji}</div>
-            `;
-            card.onclick = () => openModal(kana);
-            grid.appendChild(card);
-        });
-    });
-}
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
+            document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
 
-// Função para renderizar grid de yoon
-function renderYoonGrid(dataTable, gridId) {
-    const grid = document.getElementById(gridId);
-    grid.innerHTML = '';
-    
-    dataTable.forEach((row) => {
-        row.forEach((kana) => {
-            if (kana === null) {
-                return;
+            // A seção do quiz usa a classe "active" (não apenas "hidden")
+            // para ficar visível, então ela precisa ser removida
+            // explicitamente ao sair do modo quiz.
+            document.getElementById('quiz-section').classList.remove('active');
+
+            document.getElementById('sub-menu').style.display = 'none';
+            const quizTypeMenu = document.getElementById('quiz-type-menu');
+            if (quizTypeMenu) {
+                quizTypeMenu.style.display = 'none';
             }
-            
-            const card = document.createElement('div');
-            card.className = 'kana-card';
-            card.innerHTML = `
-                <div class="kana-char">${kana.char}</div>
-                <div class="kana-romaji">${kana.romaji}</div>
-            `;
-            card.onclick = () => openModal(kana);
-            grid.appendChild(card);
+
+            if (mode === 'hiragana' || mode === 'katakana') {
+                document.getElementById('sub-menu').style.display = 'flex';
+                document.querySelector(`.mode-btn.${mode}`).classList.add('active');
+
+                currentSubMode = 'basic';
+                document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
+                const basicBtn = document.querySelector('.sub-btn:first-child');
+                if (basicBtn) {
+                    basicBtn.classList.add('active');
+                }
+
+                if (mode === 'hiragana') {
+                    document.getElementById('hiragana-section').classList.remove('hidden');
+                    document.getElementById('info-hiragana').classList.remove('hidden');
+                } else {
+                    document.getElementById('katakana-section').classList.remove('hidden');
+                    document.getElementById('info-katakana').classList.remove('hidden');
+                }
+
+            } else if (mode === 'quiz') {
+                document.querySelector('.mode-btn.quiz').classList.add('active');
+                document.getElementById('quiz-section').classList.add('active');
+                document.getElementById('info-quiz').classList.remove('hidden');
+                if (quizTypeMenu) {
+                    quizTypeMenu.style.display = 'flex';
+                }
+                startQuiz();
+
+            } else if (mode === 'guide') {
+                document.querySelector('.mode-btn.guide').classList.add('active');
+                document.getElementById('guide-section').classList.remove('hidden');
+
+            } else if (mode === 'progress') {
+                document.querySelector('.mode-btn.progress').classList.add('active');
+                document.getElementById('progress-section').classList.remove('hidden');
+                renderProgress();
+            }
+        }
+
+        // Alterna entre os sub-modos de Hiragana/Katakana (básico,
+        // dakuten/handakuten, yōon), mostrando a seção e o balão
+        // informativo correspondentes.
+        function changeSubMode(subMode, btnEl) {
+            currentSubMode = subMode;
+
+            document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnEl) {
+                btnEl.classList.add('active');
+            }
+
+            document.querySelectorAll('.kana-section').forEach(section => section.classList.add('hidden'));
+            document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
+
+            if (currentMainMode === 'hiragana') {
+                if (subMode === 'basic') {
+                    document.getElementById('hiragana-section').classList.remove('hidden');
+                    document.getElementById('info-hiragana').classList.remove('hidden');
+                } else if (subMode === 'dakuten') {
+                    document.getElementById('hiragana-dakuten-section').classList.remove('hidden');
+                    document.getElementById('info-hiragana-dakuten').classList.remove('hidden');
+                } else if (subMode === 'yoon') {
+                    document.getElementById('hiragana-yoon-section').classList.remove('hidden');
+                    document.getElementById('info-hiragana-yoon').classList.remove('hidden');
+                }
+            } else if (currentMainMode === 'katakana') {
+                if (subMode === 'basic') {
+                    document.getElementById('katakana-section').classList.remove('hidden');
+                    document.getElementById('info-katakana').classList.remove('hidden');
+                } else if (subMode === 'dakuten') {
+                    document.getElementById('katakana-dakuten-section').classList.remove('hidden');
+                    document.getElementById('info-katakana-dakuten').classList.remove('hidden');
+                } else if (subMode === 'yoon') {
+                    document.getElementById('katakana-yoon-section').classList.remove('hidden');
+                    document.getElementById('info-katakana-yoon').classList.remove('hidden');
+                }
+            }
+        }
+
+        // ============================================================
+        // ESTADO INICIAL DA PÁGINA
+        // ============================================================
+        // Garante que a página sempre abra no mesmo estado (Hiragana
+        // básico), independentemente de qualquer estado deixado por uma
+        // navegação anterior.
+        window.addEventListener('DOMContentLoaded', function() {
+            currentMainMode = 'hiragana';
+            currentSubMode = 'basic';
+
+            document.querySelector('.mode-btn.hiragana').classList.add('active');
+            document.getElementById('sub-menu').style.display = 'flex';
+
+            document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.sub-btn:first-child').classList.add('active');
+
+            document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
+            document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
+
+            document.getElementById('hiragana-section').classList.remove('hidden');
+            document.getElementById('info-hiragana').classList.remove('hidden');
         });
-    });
-}
 
-window.addEventListener('DOMContentLoaded', function() {
-    // Forçar o modo Hiragana Básico ao carregar
-    currentMainMode = 'hiragana';
-    currentSubMode = 'basic';
-    
-    document.querySelector('.mode-btn.hiragana').classList.add('active');
-    
-    document.getElementById('sub-menu').style.display = 'flex';
-    
-    document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelector('.sub-btn:first-child').classList.add('active');
-    
-    document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
-    document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
-    
-    document.getElementById('hiragana-section').classList.remove('hidden');
-    document.getElementById('info-hiragana').classList.remove('hidden');
-});
-
-renderKana(hiraganaTable, 'hiragana-grid');
-renderKana(katakanaTable, 'katakana-grid');
-renderDakutenGrid(hiraganaDakutenTable, 'hiragana-dakuten-grid');
-renderDakutenGrid(katakanaDakutenTable, 'katakana-dakuten-grid');
-renderYoonGrid(hiraganaYoonTable, 'hiragana-yoon-grid');
-renderYoonGrid(katakanaYoonTable, 'katakana-yoon-grid');
+        // Renderização de todas as grades (básico, dakuten e yōon) dos
+        // dois alfabetos, assim que o script é carregado (RF01, RF02, RF03).
+        renderKana(hiraganaTable, 'hiragana-grid');
+        renderKana(katakanaTable, 'katakana-grid');
+        renderDakutenGrid(hiraganaDakutenTable, 'hiragana-dakuten-grid');
+        renderDakutenGrid(katakanaDakutenTable, 'katakana-dakuten-grid');
+        renderYoonGrid(hiraganaYoonTable, 'hiragana-yoon-grid');
+        renderYoonGrid(katakanaYoonTable, 'katakana-yoon-grid');
