@@ -33,7 +33,7 @@
         </div>
 
         <div class="mode-selector">
-            <button class="mode-btn hiragana active" onclick="changeMode('hiragana')">
+            <button class="mode-btn hiragana" onclick="changeMode('hiragana')">
                 ひらがな Hiragana
             </button>
             <button class="mode-btn katakana" onclick="changeMode('katakana')">
@@ -42,7 +42,7 @@
             <button class="mode-btn quiz" onclick="changeMode('quiz')">
                 📝 Quiz
             </button>
-            <button class="mode-btn guide" onclick="changeMode('guide')">
+            <button class="mode-btn guide active" onclick="changeMode('guide')">
                 📖 Como estudar
             </button>
             <button class="mode-btn progress" onclick="changeMode('progress')">
@@ -60,7 +60,7 @@
         <div class="content-box">
 
         <!-- Balão Informativo Hiragana Básico -->
-        <div id="info-hiragana" class="info-balloon hiragana">
+        <div id="info-hiragana" class="info-balloon hiragana hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-hiragana')">
                 <div class="balloon-title">
                     <span class="balloon-icon">💡</span>
@@ -176,12 +176,12 @@
                 Testamos se você consegue ler os caracteres!<br>
                 Você verá um símbolo (ex: あ) e deve escolher a pronúncia correta.<br><br>
                 📌 <strong>Dica:</strong> Estude as tabelas ANTES de fazer o quiz 😉<br>
-                📌 Você pode voltar para consultar a qualquer momento!
+                📌 Você pode consultar as tabelas a qualquer momento: sua pergunta atual e sua pontuação continuam guardadas quando você voltar ao quiz.
             </div>
         </div>
 
         <!-- HIRAGANA BÁSICO -->
-        <div id="hiragana-section" class="kana-section">
+        <div id="hiragana-section" class="kana-section hidden">
             <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana (ひらがな)</h2>
             <div class="kana-grid" id="hiragana-grid"></div>
         </div>
@@ -247,8 +247,14 @@
         </div>
 
         <!-- COMO ESTUDAR (RF06) -->
-        <div id="guide-section" class="kana-section hidden">
+        <div id="guide-section" class="kana-section">
             <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Como estudar</h2>
+            <p class="guide-intro">
+                Bem-vindo ao <strong>Kaizen</strong>! Aqui você aprende a reconhecer e pronunciar os
+                caracteres <strong>Hiragana</strong> e <strong>Katakana</strong>, os dois alfabetos
+                básicos do japonês. O caminho recomendado é:
+                <strong>aprender → ouvir → praticar → acompanhar seu progresso</strong>.
+            </p>
             <ol class="guide-list">
                 <li>Comece pelo Hiragana básico.</li>
                 <li>Clique nos caracteres para ouvir a pronúncia.</li>
@@ -257,6 +263,9 @@
                 <li>Depois pratique no quiz.</li>
                 <li>Revise os caracteres que apresentar maior dificuldade.</li>
             </ol>
+            <div class="guide-actions">
+                <button class="guide-start-btn" onclick="changeMode('hiragana')">Começar pelo Hiragana →</button>
+            </div>
         </div>
 
         <!-- PROGRESSO (RF14, RF15, RF16) -->
@@ -338,6 +347,10 @@
             <p class="footer-copyright">2026 Projeto Kaizen - Todos os direitos reservados.</p>
         </div>
     </footer>
+    <!-- Botão de feedback (protótipo): o link do Forms é definido em FEEDBACK_URL, no script.js -->
+    <button class="feedback-btn" type="button" onclick="openFeedback()" aria-label="Enviar feedback sobre o Projeto Kaizen">
+        💬 Feedback
+    </button>
     <!-- Script -->
     <script src="script.js"></script>
 </body>

@@ -607,6 +607,11 @@
         //     necessário, já que o som ouvido e o caractere escolhido
         //     já foram confirmados como o mesmo.
         function checkAnswer(selected, btn) {
+            const resultEl = document.getElementById('quiz-result');
+            if (resultEl) {
+                resultEl.classList.add('hidden');
+            }
+
             quizStats.total++;
             const allButtons = document.querySelectorAll('.quiz-option');
             allButtons.forEach(b => b.disabled = true);
@@ -830,6 +835,19 @@
         renderKana(katakanaTable, 'katakana-grid');
 
         // ============================================================
+        // FEEDBACK
+        // ============================================================
+        const FEEDBACK_URL = '';
+
+        function openFeedback() {
+            if (FEEDBACK_URL) {
+                window.open(FEEDBACK_URL, '_blank', 'noopener');
+            } else {
+                window.alert('O formulário de feedback será disponibilizado em breve. Obrigado pelo interesse!');
+            }
+        }
+
+        // ============================================================
         // BALÕES INFORMATIVOS
         // ============================================================
         // Expande ou recolhe o texto explicativo de cada seção (o que é
@@ -896,7 +914,10 @@
                 if (quizTypeMenu) {
                     quizTypeMenu.style.display = 'flex';
                 }
-                startQuiz();
+
+                if (currentQuizData.length === 0) {
+                    startQuiz();
+                }
 
             } else if (mode === 'guide') {
                 document.querySelector('.mode-btn.guide').classList.add('active');
@@ -951,24 +972,12 @@
         // ============================================================
         // ESTADO INICIAL DA PÁGINA
         // ============================================================
-        // Garante que a página sempre abra no mesmo estado (Hiragana
-        // básico), independentemente de qualquer estado deixado por uma
-        // navegação anterior.
+        // A página abre em "Como estudar" (RF06), para que quem chega
+        // pela primeira vez entenda o caminho de estudo antes de ver os
+        // cards. O HTML já vem nesse estado; changeMode('guide') apenas
+        // garante que menu, botões e seções estejam coerentes.
         window.addEventListener('DOMContentLoaded', function() {
-            currentMainMode = 'hiragana';
-            currentSubMode = 'basic';
-
-            document.querySelector('.mode-btn.hiragana').classList.add('active');
-            document.getElementById('sub-menu').style.display = 'flex';
-
-            document.querySelectorAll('.sub-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.sub-btn:first-child').classList.add('active');
-
-            document.querySelectorAll('.kana-section, .quiz-section').forEach(section => section.classList.add('hidden'));
-            document.querySelectorAll('.info-balloon').forEach(balloon => balloon.classList.add('hidden'));
-
-            document.getElementById('hiragana-section').classList.remove('hidden');
-            document.getElementById('info-hiragana').classList.remove('hidden');
+            changeMode('guide');
         });
 
         // Renderização de todas as grades (básico, dakuten e yōon) dos
