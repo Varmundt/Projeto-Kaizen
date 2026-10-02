@@ -28,7 +28,9 @@
         <div class="header">
             <div class="logo">
                 <h1>改善 Projeto Kaizen</h1>
-                <p>Aprenda Hiragana & Katakana</p>
+                <p class="logo-subtitle">Aprenda Hiragana e Katakana de forma simples e interativa.</p>
+                <div class="logo-actions">
+                </div>
             </div>
         </div>
 
@@ -40,13 +42,13 @@
                 カタカナ Katakana
             </button>
             <button class="mode-btn quiz" onclick="changeMode('quiz')">
-                📝 Quiz
+                Quiz
             </button>
             <button class="mode-btn guide active" onclick="changeMode('guide')">
-                📖 Como estudar
+                Como estudar
             </button>
             <button class="mode-btn progress" onclick="changeMode('progress')">
-                📊 Progresso
+                Progresso
             </button>
         </div>
 
@@ -58,7 +60,6 @@
         </div>
 
         <div class="content-box">
-
         <!-- Balão Informativo Hiragana Básico -->
         <div id="info-hiragana" class="info-balloon hiragana hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-hiragana')">
@@ -66,14 +67,16 @@
                     <span class="balloon-icon">💡</span>
                     <span>O que é Hiragana?</span>
                 </div>
-                <button class="balloon-toggle" type="button">−</button>
+                <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
             </div>
             <div class="balloon-content">
-                É o primeiro alfabeto japonês que você deve aprender!<br>
+                Os sistemas Hiragana e Katakana fazem parte da escrita japonesa e possuem funções diferentes.<br><br>
+                O <strong>Hiragana</strong> é o primeiro alfabeto japonês que você deve aprender!<br>
                 Cada símbolo representa um SOM (não uma palavra).<br><br>
                 <strong>Exemplo:</strong> あ = "a"  |  か = "ka"  |  さ = "sa"<br><br>
-                📌 <strong>Usado para:</strong> palavras japonesas nativas, partículas gramaticais.<br>
-                💡 <strong>Dica:</strong> Clique em cada card para ver e ouvir a pronúncia!
+                📌 <strong>Usado para:</strong> palavras de origem japonesa, partículas e terminações gramaticais.<br>
+                💡 <strong>Dica:</strong> Clique em cada card para ver e ouvir a pronúncia!<br><br>
+                Para quem está começando, o mais importante nesta etapa é desenvolver familiaridade com os caracteres e sua pronúncia.
             </div>
         </div>
 
@@ -84,7 +87,7 @@
                     <span class="balloon-icon">🔰</span>
                     <span>Sinais de Modificação (Dakuten & Handakuten)</span>
                 </div>
-                <button class="balloon-toggle" type="button">−</button>
+                <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
             </div>
             <div class="balloon-content">
                 Os sinais de modificação alteram a pronúncia dos caracteres básicos.<br><br>
@@ -101,7 +104,7 @@
                     <span class="balloon-icon">📚</span>
                     <span>Junções (Yōon)</span>
                 </div>
-                <button class="balloon-toggle" type="button">−</button>
+                <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
             </div>
             <div class="balloon-content">
                 Combinações de dois caracteres que formam um único som.<br><br>
@@ -118,14 +121,16 @@
                     <span class="balloon-icon">💡</span>
                     <span>O que é Katakana?</span>
                 </div>
-                <button class="balloon-toggle" type="button">−</button>
+                <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
             </div>
             <div class="balloon-content">
-                É o segundo alfabeto japonês. Tem os MESMOS SONS do Hiragana,
+                Os sistemas Hiragana e Katakana fazem parte da escrita japonesa e possuem funções diferentes.<br><br>
+                O <strong>Katakana</strong> é o segundo alfabeto japonês. Tem os MESMOS SONS do Hiragana,
                 mas com símbolos diferentes.<br><br>
                 <strong>Exemplo:</strong> ア = "a"  |  カ = "ka"  |  サ = "sa"<br><br>
-                📌 <strong>Usado para:</strong> palavras estrangeiras, nomes internacionais, ênfase.<br>
-                💡 <strong>Curiosidade:</strong> Seu nome em japonês seria escrito em Katakana!
+                📌 <strong>Usado para:</strong> palavras de origem estrangeira, nomes estrangeiros, onomatopeias, ênfase e outros contextos específicos.<br>
+                💡 <strong>Curiosidade:</strong> Seu nome em japonês seria escrito em Katakana!<br><br>
+                Para quem está começando, o mais importante nesta etapa é desenvolver familiaridade com os caracteres e sua pronúncia.
             </div>
         </div>
 
@@ -136,7 +141,7 @@
                     <span class="balloon-icon">🔰</span>
                     <span>Sinais de Modificação (Dakuten & Handakuten)</span>
                 </div>
-                <button class="balloon-toggle" type="button">−</button>
+                <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
             </div>
             <div class="balloon-content">
                 Os sinais de modificação alteram a pronúncia dos caracteres básicos.<br><br>
@@ -153,7 +158,7 @@
                     <span class="balloon-icon">📚</span>
                     <span>Junções (Yōon)</span>
                 </div>
-                <button class="balloon-toggle" type="button">−</button>
+                <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
             </div>
             <div class="balloon-content">
                 Combinações de dois caracteres que formam um único som.<br><br>
@@ -170,7 +175,7 @@
                     <span class="balloon-icon">💡</span>
                     <span>Como funciona o Quiz?</span>
                 </div>
-                <button class="balloon-toggle" type="button">−</button>
+                <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
             </div>
             <div class="balloon-content">
                 Testamos se você consegue ler os caracteres!<br>
@@ -222,8 +227,8 @@
 
             <!-- MODALIDADES DO QUIZ (RF08 e RF09) -->
             <div class="quiz-type-menu" id="quiz-type-menu">
-                <button class="quiz-type-btn active" onclick="changeQuizType('char-to-romaji', this)">Caractere → Pronúncia</button>
-                <button class="quiz-type-btn" onclick="changeQuizType('romaji-to-char', this)">Pronúncia → Caractere</button>
+                <button class="quiz-type-btn active" aria-pressed="true" onclick="changeQuizType('char-to-romaji', this)">Caractere → Pronúncia</button>
+                <button class="quiz-type-btn" aria-pressed="false" onclick="changeQuizType('romaji-to-char', this)">Pronúncia → Caractere</button>
             </div>
 
             <div class="quiz-card">
@@ -250,19 +255,103 @@
         <div id="guide-section" class="kana-section">
             <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Como estudar</h2>
             <p class="guide-intro">
-                Bem-vindo ao <strong>Kaizen</strong>! Aqui você aprende a reconhecer e pronunciar os
-                caracteres <strong>Hiragana</strong> e <strong>Katakana</strong>, os dois alfabetos
-                básicos do japonês. O caminho recomendado é:
-                <strong>aprender → ouvir → praticar → acompanhar seu progresso</strong>.
+                O Projeto Kaizen foi desenvolvido para auxiliar quem está começando a estudar os alfabetos japoneses Hiragana e Katakana.<br><br>
+                Para aproveitar melhor a plataforma, recomendamos seguir uma sequência simples: primeiro conhecer os caracteres, depois ouvir suas pronúncias, praticar no quiz e revisar os conteúdos conforme sua dificuldade.
             </p>
-            <ol class="guide-list">
-                <li>Comece pelo Hiragana básico.</li>
-                <li>Clique nos caracteres para ouvir a pronúncia.</li>
-                <li>Tente reconhecer os caracteres sem consultar a romanização.</li>
-                <li>Avance para Dakuten, Handakuten e Yōon.</li>
-                <li>Depois pratique no quiz.</li>
-                <li>Revise os caracteres que apresentar maior dificuldade.</li>
-            </ol>
+
+            <div class="guide-steps">
+                <div class="guide-step">
+                    <div class="guide-step-number">1</div>
+                    <div class="guide-step-content">
+                        <h3>Comece pelos caracteres básicos</h3>
+                        <p>Comece pelas tabelas de Hiragana e Katakana na categoria básica. Observe o formato de cada caractere e sua romanização. Não tente memorizar todos de uma vez. Avance gradualmente e revise os caracteres que ainda causarem dificuldade.</p>
+                    </div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-step-number">2</div>
+                    <div class="guide-step-content">
+                        <h3>Clique nos caracteres e ouça</h3>
+                        <p>Cada caractere possui um áudio de pronúncia. Clique nos cards para ouvir o som enquanto observa o caractere e sua romanização. Essa associação entre o símbolo e o som ajuda a construir o reconhecimento.</p>
+                    </div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-step-number">3</div>
+                    <div class="guide-step-content">
+                        <h3>Tente reconhecer antes de olhar a romanização</h3>
+                        <p>Depois de ouvir e estudar alguns caracteres, tente identificar o caractere sem depender imediatamente da romanização. A ideia é começar a associar diretamente o símbolo ao seu som.</p>
+                    </div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-step-number">4</div>
+                    <div class="guide-step-content">
+                        <h3>Avance para outros grupos</h3>
+                        <p>Depois de se familiarizar com os caracteres básicos, explore Dakuten, Handakuten e Yōon. Esses grupos ampliam os sons e combinações apresentados nos alfabetos. Não é necessário avançar rapidamente. O importante é reconhecer os conteúdos anteriores antes de adicionar novos caracteres.</p>
+                    </div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-step-number">5</div>
+                    <div class="guide-step-content">
+                        <h3>Pratique no quiz</h3>
+                        <p>Use o quiz para verificar o que você realmente consegue reconhecer. O Kaizen possui duas formas de exercício: Caractere → Pronúncia e Pronúncia → Caractere. As questões são selecionadas de forma aleatória, evitando uma sequência fixa de perguntas.</p>
+                    </div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-step-number">6</div>
+                    <div class="guide-step-content">
+                        <h3>Observe seus resultados</h3>
+                        <p>Ao terminar um quiz, consulte sua pontuação e seu desempenho. O Projeto Kaizen armazena localmente informações como quantidade de quizzes realizados, acertos, erros e melhor pontuação. Use esses dados como referência para identificar quando vale a pena revisar o conteúdo.</p>
+                    </div>
+                </div>
+                <div class="guide-step">
+                    <div class="guide-step-number">7</div>
+                    <div class="guide-step-content">
+                        <h3>Revise os pontos de maior dificuldade</h3>
+                        <p>Se um caractere ou grupo estiver causando muitos erros, volte às tabelas, observe novamente o símbolo, consulte a romanização, ouça o áudio e tente novamente. Aprender os alfabetos japoneses envolve repetição e familiaridade. Não é necessário memorizar tudo em uma única sessão.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guide-flow">
+                <h3 style="text-align: center; margin-bottom: 15px; color: #667eea;">Fluxo recomendado</h3>
+                <div class="guide-flow-steps">
+                    <span class="flow-step">Conheça</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-step">Ouça</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-step">Pratique</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-step">Confira</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-step">Revise</span>
+                    <span class="flow-arrow">→</span>
+                    <span class="flow-step">Repita</span>
+                </div>
+            </div>
+
+                        <!-- Dicas para Memorizar e Dicas de Pronúncia -->
+            <div class="guide-tips-grid">
+                <div class="guide-tips-box memory-tips">
+                    <h3 class="guide-tips-title">🧠 Dicas para memorizar</h3>
+                    <ul class="guide-tips-list">
+                        <li>Estude poucos caracteres por vez.</li>
+                        <li>Observe o formato antes de consultar a romanização.</li>
+                        <li>Associe o símbolo ao som reproduzindo o áudio.</li>
+                        <li>Revise principalmente os caracteres que você erra.</li>
+                        <li>Faça sessões curtas e repetidas em vez de tentar memorizar tudo de uma vez.</li>
+                    </ul>
+                </div>
+                <div class="guide-tips-box pronunciation-tips">
+                    <h3 class="guide-tips-title">🗣️ Dicas de pronúncia</h3>
+                    <ul class="guide-tips-list">
+                        <li><strong>Áudio como referência principal:</strong> A romanização em letras latinas é apenas uma aproximação. Para aprender a pronúncia real, utilize o áudio dos cards.</li>
+                        <li><strong>Vogais curtas e puras:</strong> No japonês, as vogais (a, i, u, e, o) são faladas de forma limpa e constante, sem ditongar.</li>
+                        <li><strong>Atenção às consoantes suaves:</strong> Sons como <em>shi</em> (similar a "xi"), <em>chi</em> (como "tchê"), <em>tsu</em> e a coluna <em>R</em> (toque rápido da língua) têm articulação suave.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="guide-note">O Kaizen é uma ferramenta de apoio ao estudo, não um substituto de um curso completo de língua japonesa.</p>
+
             <div class="guide-actions">
                 <button class="guide-start-btn" onclick="changeMode('hiragana')">Começar pelo Hiragana →</button>
             </div>
@@ -307,8 +396,10 @@
             </div>
 
             <div class="progress-actions">
-                <button class="reset-progress-btn" onclick="resetProgress()">🗑️ Limpar progresso</button>
+                <button class="reset-progress-btn" onclick="resetProgress()">Limpar progresso</button>
             </div>
+            <p class="progress-note">Seu progresso é salvo neste dispositivo. Os dados não dependem de cadastro, servidor ou banco de dados.</p>
+            <p class="progress-tip" id="progress-tip"></p>
         </div>
     </div>
 
@@ -324,6 +415,10 @@
                         <span class="hint-text">Romaji = pronúncia em letras latinas</span>
                     </div>
                 </div>
+                <div class="modal-tip hidden" id="modal-tip">
+                    <span class="modal-tip-icon" aria-hidden="true">💡</span>
+                    <span class="modal-tip-text" id="modal-tip-text"></span>
+                </div>
                 <div class="audio-controls">
                     <button class="play-audio-btn" id="play-btn" onclick="playAudio()">
                         🔊 Reproduzir Pronúncia
@@ -338,7 +433,7 @@
             <h3 class="footer-title">Contatos</h3>
             <div class="footer-links">
                 <a href="mailto:mauriciomilleroliveira@hotmail.com" class="footer-link">
-                    <span>mauriciomilleroliveira@hotmail.com</span>
+                    <span>mauriciomilleroliveira@<wbr>hotmail.com</span>
                 </a>
                 <a href="https://github.com/Varmundt" target="_blank" class="footer-link">
                     <span>Varmundt</span>
@@ -347,10 +442,11 @@
             <p class="footer-copyright">2026 Projeto Kaizen - Todos os direitos reservados.</p>
         </div>
     </footer>
-    <!-- Botão de feedback (protótipo): o link do Forms é definido em FEEDBACK_URL, no script.js -->
-    <button class="feedback-btn" type="button" onclick="openFeedback()" aria-label="Enviar feedback sobre o Projeto Kaizen">
-        💬 Feedback
-    </button>
+    <div class="feedback-container">
+        <button class="feedback-btn" type="button" onclick="openFeedback()" aria-label="Enviar feedback sobre o Projeto Kaizen">
+            💬 Feedback
+        </button>
+    </div>
     <!-- Script -->
     <script src="script.js"></script>
 </body>

@@ -796,10 +796,6 @@ body {
 }
 
 .feedback-btn {
-    position: fixed;
-    right: 16px;
-    bottom: 16px;
-    z-index: 900;
     padding: 10px 18px;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -1515,4 +1511,353 @@ body {
     .quiz-type-btn {
         min-width: 100%;
     }
+}
+
+
+/* ============================================================
+   COMMIT 3 — POLIMENTO DE CONTEÚDO E UX
+   ============================================================ */
+
+/* HERO / ENTRADA DO USUÁRIO */
+.logo-subtitle {
+    font-size: 1.1em;
+    color: #555;
+    font-weight: 400;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.logo-cta {
+    font-size: 0.95em;
+    color: #777;
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 15px;
+}
+
+.logo-actions {
+    margin-top: 15px;
+}
+
+.logo-guide-btn {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.logo-guide-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+}
+
+.logo-guide-btn:focus-visible {
+    outline: 3px solid #ffd200;
+    outline-offset: 3px;
+}
+
+/* COMO ESTUDAR — VERSÃO APROFUNDADA */
+.guide-steps {
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+.guide-step {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    align-items: flex-start;
+}
+
+.guide-step-number {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1em;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+}
+
+.guide-step-content h3 {
+    color: #667eea;
+    font-size: 1.1em;
+    margin-bottom: 6px;
+}
+
+.guide-step-content p {
+    color: #555;
+    line-height: 1.7;
+    font-size: 1em;
+}
+
+/* FLUXO RECOMENDADO */
+.guide-flow {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border-radius: 15px;
+    border: 1px solid rgba(102, 126, 234, 0.15);
+}
+
+.guide-flow-steps {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.flow-step {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9em;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.flow-arrow {
+    color: #667eea;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.guide-note {
+    max-width: 700px;
+    margin: 20px auto;
+    text-align: center;
+    color: #999;
+    font-style: italic;
+    font-size: 0.95em;
+}
+
+/* PROGRESSO — NOTAS */
+.progress-note {
+    text-align: center;
+    color: #999;
+    font-size: 0.9em;
+    margin-top: 20px;
+    font-style: italic;
+}
+
+.progress-tip {
+    text-align: center;
+    color: #f5576c;
+    font-size: 0.95em;
+    margin-top: 10px;
+    font-weight: 500;
+    min-height: 20px;
+}
+
+/* FEEDBACK CONTAINER */
+.feedback-container {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 900;
+}
+
+/* RESPONSIVIDADE — COMMIT 3 */
+@media (max-width: 768px) {
+    .logo-subtitle {
+        font-size: 1em;
+    }
+
+    .logo-cta {
+        font-size: 0.9em;
+    }
+
+    .guide-step {
+        gap: 12px;
+    }
+
+    .guide-step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 0.95em;
+    }
+
+    .guide-step-content h3 {
+        font-size: 1em;
+    }
+
+    .guide-step-content p {
+        font-size: 0.95em;
+    }
+
+    .guide-flow-steps {
+        gap: 6px;
+    }
+
+    .flow-step {
+        padding: 6px 12px;
+        font-size: 0.85em;
+    }
+
+    .flow-arrow {
+        font-size: 1em;
+    }
+
+    .footer-link {
+        word-break: normal;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 480px) {
+    .guide-step {
+        flex-direction: column;
+        gap: 8px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .guide-flow-steps {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .flow-arrow {
+        transform: rotate(90deg);
+    }
+
+    /* Ajuste para evitar corte do e-mail em telas muito pequenas */
+    .footer-links {
+        padding: 0 10px;
+        width: 100%;
+    }
+
+    .footer-link {
+        font-size: 0.82em;
+        padding: 10px 14px;
+        width: 100%;
+        max-width: 100%;
+        word-break: normal;
+        overflow-wrap: anywhere;
+    }
+
+    .footer-link span {
+        word-break: normal;
+        overflow-wrap: anywhere;
+    }
+
+    /* Espaço extra no fim da página para o botão flutuante de Feedback
+       não cobrir o texto do rodapé em telas pequenas */
+    .footer {
+        padding-bottom: 64px;
+    }
+
+    .guide-tips-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* DICAS DE MEMORIZAÇÃO E PRONÚNCIA NA SEÇÃO COMO ESTUDAR */
+.guide-tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 750px;
+    margin: 30px auto;
+}
+
+.guide-tips-box {
+    background: #fdfdfd;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    text-align: left;
+}
+
+.guide-tips-box.memory-tips {
+    border-left: 5px solid #43e97b;
+}
+
+.guide-tips-box.pronunciation-tips {
+    border-left: 5px solid #667eea;
+}
+
+.guide-tips-title {
+    font-size: 1.15em;
+    margin-bottom: 12px;
+    color: #333;
+    font-weight: 700;
+}
+
+.guide-tips-list {
+    padding-left: 20px;
+    line-height: 1.8;
+    color: #555;
+    font-size: 0.95em;
+}
+
+.guide-tips-list li {
+    margin-bottom: 8px;
+}
+
+/* DICA DE PRONÚNCIA NO MODAL */
+.modal-pronunciation-advice {
+    margin: 12px auto 0;
+    max-width: 380px;
+    padding: 10px 14px;
+    background: rgba(102, 126, 234, 0.08);
+    border-radius: 10px;
+    font-size: 0.85em;
+    color: #4a5568;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.modal-tip {
+    margin: 15px auto 20px;
+    padding: 12px 18px;
+    background: #f8faff;
+    border-left: 4px solid #667eea;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    max-width: 420px;
+    font-size: 0.9em;
+    color: #444;
+    line-height: 1.5;
+}
+
+.modal-tip.hidden {
+    display: none;
+}
+
+.modal-tip-icon {
+    font-size: 1.2em;
+    flex-shrink: 0;
+}
+
+.modal-tip-text {
+    flex: 1;
+}
+
+/* TAG DE FEEDBACK ACESSÍVEL NO QUIZ (RNF07) */
+.quiz-feedback-tag {
+    display: block;
+    font-size: 0.75em;
+    font-weight: 700;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
 }

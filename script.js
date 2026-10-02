@@ -1,4 +1,4 @@
-        const hiraganaTable = [
+﻿       const hiraganaTable = [
             // Linha A
             [{char: 'あ', romaji: 'a', audio: 'audio/hiragana/a.mp3'}, 
              {char: 'か', romaji: 'ka', audio: 'audio/hiragana/ka.mp3'}, 
@@ -281,6 +281,32 @@
         ];
 
         // ============================================================
+        // DICAS PONTUAIS DE PRONÚNCIA E MEMORIZAÇÃO
+        // ============================================================
+        // Adicionadas apenas para caracteres que costumam gerar dúvidas
+        // ou confusão frequente em iniciantes.
+        const kanaTips = {
+            // Hiragana
+            'し': 'Dica de pronúncia: som suave parecido com "xi", sem som áspero de "si".',
+            'ち': 'Dica de pronúncia: soa similar a "tchê" ou "tchau", não como "ti" seco.',
+            'つ': 'Dica de pronúncia: som similar a "ts" em "tsunami". Dica de memorização: lembra uma onda crescendo.',
+            'ふ': 'Dica de pronúncia: sopro suave entre os lábios quase fechados, sem encostar os dentes no lábio.',
+            'ら': 'Dica de pronúncia: a coluna R japonesa tem som brando (como em "caro"), com toque rápido da língua no céu da boca.',
+            'を': 'Dica: no japonês moderno é usado como partícula gramatical de objeto direto e sua pronúncia soa como "o".',
+            'ん': 'Dica de pronúncia: som nasal que se adapta ao som seguinte (m, n ou ng), funcionando como terminação nasal.',
+            'ぢ': 'Dica: no japonês moderno padrão, tem a mesma pronúncia que じ (ji).',
+            'づ': 'Dica: no japonês moderno padrão, tem a mesma pronúncia que ず (zu).',
+            // Katakana
+            'シ': 'Dica de memorização: os dois traços menores são mais horizontais e o traço longo sobe de baixo para cima.',
+            'ツ': 'Dica de memorização: os dois traços menores são mais verticais e o traço longo desce de cima para baixo.',
+            'ソ': 'Dica de memorização: traço curto e traço longo partindo de cima para baixo.',
+            'ン': 'Dica de memorização: traço curto e traço longo subindo de baixo para cima.',
+            'フ': 'Dica de pronúncia: soprado suavemente entre os lábios quase fechados.',
+            'ヂ': 'Dica: no japonês moderno padrão, tem a mesma pronúncia que ジ (ji).',
+            'ヅ': 'Dica: no japonês moderno padrão, tem a mesma pronúncia que ズ (zu).'
+        };
+
+        // ============================================================
         // PREPARO DOS DADOS DE KANA
         // ============================================================
         // As tabelas acima (*Table) são matrizes bidimensionais, usadas
@@ -443,6 +469,18 @@
 
             document.getElementById('modal-char').textContent = kana.char;
             document.getElementById('modal-romaji').textContent = kana.romaji;
+            const tip = kana.tip || (typeof kanaTips !== 'undefined' && kanaTips[kana.char]);
+            const tipEl = document.getElementById('modal-tip');
+            const tipText = document.getElementById('modal-tip-text');
+            if (tipEl && tipText) {
+                if (tip) {
+                    tipText.textContent = tip;
+                    tipEl.classList.remove('hidden');
+                } else {
+                    tipText.textContent = '';
+                    tipEl.classList.add('hidden');
+                }
+            }
             document.getElementById('kana-modal').classList.add('active');
             document.body.style.overflow = 'hidden';
 
@@ -460,6 +498,10 @@
         function closeModal() {
             document.getElementById('kana-modal').classList.remove('active');
             document.body.style.overflow = 'auto';
+            const tipEl = document.getElementById('modal-tip');
+            if (tipEl) {
+                tipEl.classList.add('hidden');
+            }
 
             if (currentAudio) {
                 currentAudio.pause();
@@ -474,8 +516,30 @@
         // Fecha o modal com a tecla Esc, um padrão esperado de
         // acessibilidade para qualquer diálogo modal (RNF07).
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && document.getElementById('kana-modal').classList.contains('active')) {
+            const modal = document.getElementById('kana-modal');
+            if (!modal.classList.contains('active')) return;
+
+            if (e.key === 'Escape') {
                 closeModal();
+                return;
+            }
+
+            // Mantém o foco do teclado dentro do modal enquanto ele está
+            // aberto, evitando que o Tab leve a elementos por trás dele (RNF07).
+            if (e.key === 'Tab') {
+                const focusables = Array.from(modal.querySelectorAll('button, [href], [tabindex]:not([tabindex="-1"])'))
+                    .filter(el => el.offsetParent !== null);
+                if (focusables.length === 0) return;
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                const modalContent = modal.querySelector('.modal-content');
+                if (e.shiftKey && (document.activeElement === first || document.activeElement === modalContent)) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
             }
         });
 
@@ -532,6 +596,7 @@
             if (btnEl) {
                 btnEl.classList.add('active');
             }
+            syncPressed('.quiz-type-btn');
             generateQuestion();
         }
 
@@ -624,13 +689,19 @@
                 quizStats.correct++;
                 if (statsCategoria) statsCategoria.correct++;
                 btn.classList.add('correct');
+                btn.setAttribute('aria-label', selected + ' - Resposta correta');
+                btn.innerHTML = selected + ' <span class="quiz-feedback-tag">✓ Correto</span>';
             } else {
                 quizStats.incorrect++;
                 if (statsCategoria) statsCategoria.incorrect++;
                 btn.classList.add('incorrect');
+                btn.setAttribute('aria-label', selected + ' - Resposta incorreta');
+                btn.innerHTML = selected + ' <span class="quiz-feedback-tag">✗ Incorreto</span>';
                 allButtons.forEach(b => {
                     if (b.textContent === currentAnswer) {
                         b.classList.add('correct');
+                        b.setAttribute('aria-label', currentAnswer + ' - Resposta correta');
+                        b.innerHTML = currentAnswer + ' <span class="quiz-feedback-tag">✓ Correta</span>';
                     }
                 });
             }
@@ -773,6 +844,17 @@
                 percentual(data.categorias.katakana.acertos, data.categorias.katakana.erros) + '%';
             document.getElementById('progress-katakana-detail').textContent =
                 `${data.categorias.katakana.acertos} acertos / ${data.categorias.katakana.erros} erros`;
+
+            // Dica de revisão baseada no desempenho
+            const tipEl = document.getElementById('progress-tip');
+            if (tipEl) {
+                const totalRespostas = data.acertos + data.erros;
+                if (totalRespostas > 0 && percentual(data.acertos, data.erros) < 70) {
+                    tipEl.textContent = 'Teve muitos erros? Revise os caracteres e tente o quiz novamente.';
+                } else {
+                    tipEl.textContent = '';
+                }
+            }
         }
 
         // Apaga todo o progresso salvo, mediante confirmação do usuário.
@@ -831,13 +913,12 @@
         // Renderização inicial das grades básicas, para que o conteúdo já
         // apareça assim que o script carrega (antes do DOMContentLoaded
         // decidir qual seção fica visível).
-        renderKana(hiraganaTable, 'hiragana-grid');
-        renderKana(katakanaTable, 'katakana-grid');
+
 
         // ============================================================
         // FEEDBACK
         // ============================================================
-        const FEEDBACK_URL = '';
+        const FEEDBACK_URL = 'https://forms.gle/ujfrkjoFqasLhnZA8';
 
         function openFeedback() {
             if (FEEDBACK_URL) {
@@ -861,6 +942,16 @@
             balloon.classList.toggle('collapsed');
 
             toggleBtn.textContent = content.classList.contains('collapsed') ? '+' : '−';
+            toggleBtn.setAttribute('aria-expanded', content.classList.contains('collapsed') ? 'false' : 'true');
+        }
+
+        // Mantém aria-pressed sincronizado com a classe "active" dos botões
+        // de navegação, para que leitores de tela (e não só a cor) informem
+        // qual opção está selecionada (RNF07).
+        function syncPressed(selector) {
+            document.querySelectorAll(selector).forEach(btn => {
+                btn.setAttribute('aria-pressed', btn.classList.contains('active') ? 'true' : 'false');
+            });
         }
 
         // ============================================================
@@ -928,6 +1019,9 @@
                 document.getElementById('progress-section').classList.remove('hidden');
                 renderProgress();
             }
+
+            syncPressed('.mode-btn');
+            syncPressed('.sub-btn');
         }
 
         // Alterna entre os sub-modos de Hiragana/Katakana (básico,
@@ -967,6 +1061,8 @@
                     document.getElementById('info-katakana-yoon').classList.remove('hidden');
                 }
             }
+
+            syncPressed('.sub-btn');
         }
 
         // ============================================================

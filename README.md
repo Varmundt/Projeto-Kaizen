@@ -7,7 +7,7 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-**Aprenda Hiragana & Katakana de forma interativa!**
+**Aprenda a reconhecer Hiragana e Katakana de forma simples e interativa.**
 
 </div>
 
@@ -15,44 +15,68 @@
 
 ## 📖 Sobre o Projeto
 
-- O PROJETO FAZ PARTE DA ATIVIDADE EXTENSIONISTA DA UNINTER E AS INFORMAÇÕES DO README PODÉM ESTAR DEFASADAS VISTO QUE O PROJETO AINDA ESTÁ SENDO CONSTRUIDO.
-A ESTIMATIVA DE CONCLUSÃO É EM DEZEMBRO DE 2026
+O **Projeto Kaizen** é uma aplicação web educativa e interativa desenvolvida para auxiliar quem está começando a estudar os alfabetos japoneses **Hiragana (ひらがな)** e **Katakana (カタカナ)**.
 
-**Projeto Kaizen** é uma aplicação web educativa e interativa para aprender os dois alfabetos silábicos japoneses: **Hiragana (ひらがな)** e **Katakana (カタカナ)**. O nome "Kaizen" (改善) significa "melhoria contínua" em japonês, refletindo a filosofia de aprendizado progressivo da aplicação.
-
-### ✨ Características Principais
-
-- 🎯 **Tabelas Completas** - Todos os caracteres básicos, dakuten, handakuten e junções (yōon)
-- 🔊 **Pronúncia em Áudio** - Ouça a pronúncia correta de cada caractere
-- 📝 **Quiz Interativo** - Teste seus conhecimentos em tempo real
-- 📱 **Totalmente Responsivo** - Funciona perfeitamente em desktop, tablet e mobile
-- 💡 **Balões Informativos** - Aprenda sobre cada sistema de escrita
+O nome "Kaizen" (改善) significa "melhoria contínua" em japonês, refletindo a filosofia de aprendizado progressivo da aplicação.
 
 ---
 
-### 🔤 Modos de Estudo
+## 🎓 Proposta Educacional
 
-#### **Hiragana (ひらがな)**
-- Alfabeto básico (46 caracteres)
-- Dakuten e Handakuten (25 variações)
-- Junções Yōon (33 combinações)
+O Kaizen é uma ferramenta de apoio ao primeiro contato com Hiragana e Katakana. O fluxo pedagógico recomendado é:
 
-#### **Katakana (カタカナ)**
-- Alfabeto básico (46 caracteres)
-- Dakuten e Handakuten (25 variações)
-- Junções Yōon (33 combinações)
+**Conheça → Ouça → Pratique → Confira → Revise → Repita**
 
-#### **Quiz Interativo**
-- Mistura todos os caracteres aprendidos
-- Feedback instantâneo (correto/incorreto)
-- Estatísticas de progresso em tempo real
-- Sistema de múltipla escolha
+O objetivo é que o usuário consiga:
+- Conhecer os caracteres e sua romanização
+- Ouvir a pronúncia de cada caractere
+- Praticar o reconhecimento por meio do quiz
+- Acompanhar seu desempenho
+- Revisar os conteúdos conforme sua dificuldade
 
 ---
 
-### 🌐 Acesso Online
+## ✨ Funcionalidades
+
+-  **Tabelas Completas** — Todos os caracteres básicos, dakuten, handakuten e junções (yōon) de Hiragana e Katakana
+-  **Pronúncia em Áudio** — Reprodução de arquivos de áudio utilizando recursos nativos do navegador
+-  **Quiz Interativo** — Duas modalidades: Caractere → Pronúncia e Pronúncia → Caractere, com questões aleatórias
+-  **Progresso e Desempenho** — Acompanhamento de quizzes realizados, acertos, erros, melhor pontuação e percentual por categoria
+-  **Guia de Estudo** — Orientações sobre a sequência recomendada para utilização dos conteúdos
+-  **Balões Informativos** — Explicações sobre cada sistema de escrita e categoria
+-  **Responsivo** — Interface adaptada para desktop, tablet e dispositivos móveis
+-  **Acessibilidade** — Navegação por teclado, foco visível, aria-labels e modais acessíveis
+-  **Feedback** — Formulário para avaliação da plataforma pelos usuários
+
+---
+
+## 🛠️ Tecnologias
+
+| Tecnologia | Utilização |
+|------------|------------|
+| **HTML5** | Estrutura da página e semântica |
+| **CSS3** | Estilização, animações e responsividade |
+| **JavaScript** | Lógica de interação, quiz, áudio e progresso |
+| **Local Storage** | Armazenamento local do desempenho do usuário |
+
+---
+
+## 💾 Armazenamento Local
+
+O progresso do usuário é salvo localmente no navegador por meio do **Local Storage**. Os dados incluem:
+- Quantidade de quizzes realizados
+- Total de acertos e erros
+- Melhor pontuação
+- Desempenho por categoria (Hiragana / Katakana)
+
+Os dados não dependem de cadastro, servidor ou banco de dados. Ficam armazenados apenas no dispositivo do usuário.
+
+---
+
+## 🌐 Aplicação Online
 
 Acesse diretamente pelo GitHub Pages:
+
 **[https://varmundt.github.io/Projeto-Kaizen/](https://varmundt.github.io/Projeto-Kaizen/)**
 
 ---
@@ -63,38 +87,28 @@ Acesse diretamente pelo GitHub Pages:
 Projeto-Kaizen/
 │
 ├── index.html          # Estrutura principal da aplicação
-├── style.css           # Estilos e animações
-├── script.js           # Lógica e interatividade
+├── style.css           # Estilos, responsividade e animações
+├── script.js           # Lógica, quiz, áudio e progresso
 │
 ├── audio/              # Arquivos de áudio para pronúncia
 │   ├── hiragana/       # Pronúncias do Hiragana
 │   └── katakana/       # Pronúncias do Katakana
 │
-├── favicons/           # Ícones e manifesto PWA
+├── favicons/           # Ícones e manifesto
 │   ├── favicon.ico
-│   ├── android-icon-*.png
-│   ├── apple-icon-*.png
+│   ├── android-icon-192x192.png
+│   ├── apple-icon-180x180.png
 │   └── manifest.json
 │
+├── LICENSE             # Licença Apache 2.0
 └── README.md           # Documentação do projeto
 ```
----
-
-## 🐛 Reportar Bugs
-
-Encontrou um bug? Abra uma [issue](https://github.com/Varmundt/Projeto-Kaizen/issues) com:
-
-- Descrição clara do problema
-- Passos para reproduzir
-- Comportamento esperado vs atual
-- Screenshots (se aplicável)
-- Navegador e sistema operacional
 
 ---
 
 ## 📜 Licença
 
-Este projeto está sob a licença Apache 2.0. Veja o arquivo `LICENSE` para mais detalhes.
+Este projeto está sob a licença **Apache 2.0**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
@@ -102,8 +116,8 @@ Este projeto está sob a licença Apache 2.0. Veja o arquivo `LICENSE` para mais
 
 **⭐ Se este projeto te ajudou, considere dar uma estrela no GitHub! ⭐**
 
-Feito com ❤️ e ☕ por [Varmundt](https://github.com/Varmundt)
+Feito com ❤️ por [Varmundt](https://github.com/Varmundt)
 
-**改善** - Melhoria Contínua
+**改善** — Melhoria Contínua
 
 </div>
