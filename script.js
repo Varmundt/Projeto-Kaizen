@@ -309,15 +309,6 @@
         // ============================================================
         // PREPARO DOS DADOS DE KANA
         // ============================================================
-        // As tabelas acima (*Table) são matrizes bidimensionais, usadas
-        // para desenhar a grade visual (linhas e colunas). Para o quiz,
-        // o formato mais prático é uma lista simples de kana, sem os
-        // espaços vazios (null) que existem só para preencher a grade.
-        //
-        // Cada kana também recebe uma propriedade "category"
-        // (hiragana ou katakana). Isso permite calcular estatísticas de
-        // progresso separadas por alfabeto (RF16), sem precisar mudar a
-        // estrutura original das tabelas.
         const hiraganaDakuten = hiraganaDakutenTable.flat().filter(k => k !== null).map(k => ({...k, category: 'hiragana'}));
         const hiraganaYoon = hiraganaYoonTable.flat().filter(k => k !== null).map(k => ({...k, category: 'hiragana'}));
         const katakanaDakuten = katakanaDakutenTable.flat().filter(k => k !== null).map(k => ({...k, category: 'katakana'}));
@@ -356,12 +347,6 @@
         // ============================================================
         // ACESSIBILIDADE DOS CARDS DE CARACTERE (RNF07)
         // ============================================================
-        // Os cards de caractere são <div>, não <button>, porque o layout
-        // visual (grade com espaços vazios, cantos arredondados, efeito
-        // de brilho) foi desenhado em cima de uma div. Para que continuem
-        // operáveis por teclado, cada card recebe manualmente o papel de
-        // botão: foco via tabindex, um rótulo descritivo para leitores de
-        // tela, e ativação pelas teclas Enter e Espaço.
         function setupCardAccessibility(card, kana) {
             card.setAttribute('tabindex', '0');
             card.setAttribute('role', 'button');
@@ -600,20 +585,6 @@
             generateQuestion();
         }
 
-        // Sorteia uma nova pergunta (RF10) e monta as alternativas de
-        // múltipla escolha (RF07). O mesmo sorteio é usado nas duas
-        // modalidades do quiz; o que muda é qual campo do kana vira a
-        // pergunta e qual vira as opções de resposta:
-        //   - Caractere -> Pronúncia (RF08): pergunta = char, opções = romaji
-        //   - Pronúncia -> Caractere (RF09): pergunta = romaji, opções = char
-        //
-        // O botão de áudio manual (RF05) só faz sentido na modalidade
-        // Pronúncia -> Caractere, onde o som É a pergunta: nesse caso ele
-        // fica visível o tempo todo e a pronúncia toca automaticamente
-        // assim que a pergunta aparece. Na modalidade Caractere -> Pronúncia,
-        // ouvir o áudio antes de responder entregaria a resposta, então o
-        // botão fica escondido (o áudio de reforço acontece depois de
-        // responder, em checkAnswer).
         function generateQuestion() {
             const randomKana = currentQuizData[Math.floor(Math.random() * currentQuizData.length)];
             currentQuizKana = randomKana;
@@ -657,20 +628,6 @@
             });
         }
 
-        // Confere a alternativa escolhida, atualiza os contadores (RF13)
-        // e destaca visualmente a resposta certa e a errada (RF11, RF12).
-        //
-        // Feedback sonoro (RF05): cada modalidade toca o áudio de um jeito
-        // diferente, para nunca sobrepor dois sons nem repetir sem motivo:
-        //   - Caractere -> Pronúncia: o áudio ainda não tocou nesta
-        //     pergunta, então toca agora a pronúncia CORRETA, reforçando a
-        //     associação entre o caractere e o som.
-        //   - Pronúncia -> Caractere: o áudio da resposta certa já tocou
-        //     ao abrir a pergunta. Se o usuário errar, toca o áudio do
-        //     caractere que ele ESCOLHEU, para comparar com o som ouvido
-        //     e perceber a diferença. Se acertar, nenhum áudio extra é
-        //     necessário, já que o som ouvido e o caractere escolhido
-        //     já foram confirmados como o mesmo.
         function checkAnswer(selected, btn) {
             const resultEl = document.getElementById('quiz-result');
             if (resultEl) {
@@ -772,9 +729,7 @@
         }
 
         // Lê o progresso salvo no navegador (RF15). Os valores são
-        // validados individualmente e combinados com o formato padrão,
-        // para continuar funcionando mesmo com dados salvos por uma
-        // versão anterior do site (ex.: sem o campo "categorias").
+        // validados individualmente e combinados com o formato padrão
         function loadProgressData() {
             const defaults = defaultProgressData();
             try {
@@ -806,9 +761,7 @@
             }
         }
 
-        // Grava o progresso no localStorage (RF15). Falhas de gravação
-        // (ex.: modo de navegação privada) são registradas no console,
-        // sem interromper o uso do site.
+        // Grava o progresso no localStorage (RF15).
         function saveProgressData(data) {
             try {
                 localStorage.setItem(KAIZEN_PROGRESS_KEY, JSON.stringify(data));
@@ -844,6 +797,12 @@
                 percentual(data.categorias.katakana.acertos, data.categorias.katakana.erros) + '%';
             document.getElementById('progress-katakana-detail').textContent =
                 `${data.categorias.katakana.acertos} acertos / ${data.categorias.katakana.erros} erros`;
+
+            // Barras visuais de desempenho por categoria
+            ['hiragana', 'katakana'].forEach(k => {
+                const bar = document.getElementById('progress-' + k + '-bar');
+                if (bar) bar.style.width = percentual(data.categorias[k].acertos, data.categorias[k].erros) + '%';
+            });
 
             // Dica de revisão baseada no desempenho
             const tipEl = document.getElementById('progress-tip');

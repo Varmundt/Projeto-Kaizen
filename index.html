@@ -19,52 +19,69 @@
     <link rel="icon" type="image/png" sizes="192x192" href="favicons/android-icon-192x192.png">
     <link rel="manifest" href="favicons/manifest.json">
     <!-- Cores do tema -->
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1a3659">
     <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff">
 
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <div class="logo">
-                <h1>改善 Projeto Kaizen</h1>
-                <p class="logo-subtitle">Aprenda Hiragana e Katakana de forma simples e interativa.</p>
-                <div class="logo-actions">
+        <header class="header">
+            <div class="hero">
+                <div class="hero-waves" aria-hidden="true"></div>
+                <span class="hero-kanji" aria-hidden="true" lang="ja">改善</span>
+                <span class="hero-sun" aria-hidden="true"></span>
+                <div class="logo">
+                    <span class="brand-mark" aria-hidden="true">改善</span>
+                    <div class="brand-text">
+                        <p class="brand-eyebrow">Melhoria contínua</p>
+                        <h1>Projeto Kaizen</h1>
+                        <p class="logo-subtitle">Aprenda a reconhecer Hiragana e Katakana de forma simples e interativa.</p>
+                        <ul class="hero-chips" aria-label="Recursos">
+                            <li>Tabelas completas</li>
+                            <li>Pronúncia em áudio</li>
+                            <li>Quiz interativo</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="mode-selector">
+        <nav class="mode-selector" aria-label="Seções principais">
+            <button class="mode-btn guide active" onclick="changeMode('guide')">
+                <span class="mode-ico" lang="ja" aria-hidden="true">学</span>
+                <span class="mode-text"><span class="mode-label">Como estudar</span><span class="mode-sub" lang="ja" aria-hidden="true">学ぶ</span></span>
+            </button>
             <button class="mode-btn hiragana" onclick="changeMode('hiragana')">
-                ひらがな Hiragana
+                <span class="mode-ico" lang="ja" aria-hidden="true">あ</span>
+                <span class="mode-text"><span class="mode-label">Hiragana</span><span class="mode-sub" lang="ja">ひらがな</span></span>
             </button>
             <button class="mode-btn katakana" onclick="changeMode('katakana')">
-                カタカナ Katakana
+                <span class="mode-ico" lang="ja" aria-hidden="true">ア</span>
+                <span class="mode-text"><span class="mode-label">Katakana</span><span class="mode-sub" lang="ja">カタカナ</span></span>
             </button>
             <button class="mode-btn quiz" onclick="changeMode('quiz')">
-                Quiz
-            </button>
-            <button class="mode-btn guide active" onclick="changeMode('guide')">
-                Como estudar
+                <span class="mode-ico" lang="ja" aria-hidden="true">問</span>
+                <span class="mode-text"><span class="mode-label">Quiz</span><span class="mode-sub" lang="ja" aria-hidden="true">クイズ</span></span>
             </button>
             <button class="mode-btn progress" onclick="changeMode('progress')">
-                Progresso
+                <span class="mode-ico" lang="ja" aria-hidden="true">進</span>
+                <span class="mode-text"><span class="mode-label">Progresso</span><span class="mode-sub" lang="ja" aria-hidden="true">進歩</span></span>
             </button>
-        </div>
+        </nav>
 
         <!-- SUB-MENU -->
-        <div class="sub-menu" id="sub-menu" style="display: none;">
+        <div class="sub-menu" id="sub-menu" role="group" aria-label="Categoria de caracteres" style="display: none;">
             <button class="sub-btn active" onclick="changeSubMode('basic', this)">Básico</button>
             <button class="sub-btn" onclick="changeSubMode('dakuten', this)">Dakuten/Handakuten</button>
             <button class="sub-btn" onclick="changeSubMode('yoon', this)">Junções</button>
         </div>
 
-        <div class="content-box">
+        <main class="content-box">
         <!-- Balão Informativo Hiragana Básico -->
         <div id="info-hiragana" class="info-balloon hiragana hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-hiragana')">
                 <div class="balloon-title">
-                    <span class="balloon-icon">💡</span>
+                    <span class="balloon-seal" aria-hidden="true" lang="ja">注</span>
                     <span>O que é Hiragana?</span>
                 </div>
                 <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
@@ -74,8 +91,8 @@
                 O <strong>Hiragana</strong> é o primeiro alfabeto japonês que você deve aprender!<br>
                 Cada símbolo representa um SOM (não uma palavra).<br><br>
                 <strong>Exemplo:</strong> あ = "a"  |  か = "ka"  |  さ = "sa"<br><br>
-                📌 <strong>Usado para:</strong> palavras de origem japonesa, partículas e terminações gramaticais.<br>
-                💡 <strong>Dica:</strong> Clique em cada card para ver e ouvir a pronúncia!<br><br>
+                <strong>Usado para:</strong> palavras de origem japonesa, partículas e terminações gramaticais.<br>
+                <strong>Dica:</strong> Clique em cada card para ver e ouvir a pronúncia!<br><br>
                 Para quem está começando, o mais importante nesta etapa é desenvolver familiaridade com os caracteres e sua pronúncia.
             </div>
         </div>
@@ -84,7 +101,7 @@
         <div id="info-hiragana-dakuten" class="info-balloon hiragana hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-hiragana-dakuten')">
                 <div class="balloon-title">
-                    <span class="balloon-icon">🔰</span>
+                    <span class="balloon-seal" aria-hidden="true" lang="ja">注</span>
                     <span>Sinais de Modificação (Dakuten & Handakuten)</span>
                 </div>
                 <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
@@ -93,7 +110,7 @@
                 Os sinais de modificação alteram a pronúncia dos caracteres básicos.<br><br>
                 <strong>Dakuten (゛)</strong>: Torna o som sonoro → か (ka) vira が (ga)<br>
                 <strong>Handakuten (゜)</strong>: Modifica H para P → は (ha) vira ぱ (pa)<br><br>
-                📌 Esses símbolos são essenciais para escrever corretamente muitas palavras!
+                Esses símbolos são essenciais para escrever corretamente muitas palavras!
             </div>
         </div>
 
@@ -101,7 +118,7 @@
         <div id="info-hiragana-yoon" class="info-balloon hiragana hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-hiragana-yoon')">
                 <div class="balloon-title">
-                    <span class="balloon-icon">📚</span>
+                    <span class="balloon-seal" aria-hidden="true" lang="ja">注</span>
                     <span>Junções (Yōon)</span>
                 </div>
                 <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
@@ -110,7 +127,7 @@
                 Combinações de dois caracteres que formam um único som.<br><br>
                 <strong>Como funciona:</strong> Um caractere da coluna "i" + や/ゆ/よ pequeno<br>
                 <strong>Exemplo:</strong> き (ki) + ゃ (ya pequeno) = きゃ (kya)<br><br>
-                💡 O segundo caractere é sempre escrito menor que o primeiro!
+                O segundo caractere é sempre escrito menor que o primeiro!
             </div>
         </div>
 
@@ -118,7 +135,7 @@
         <div id="info-katakana" class="info-balloon katakana hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-katakana')">
                 <div class="balloon-title">
-                    <span class="balloon-icon">💡</span>
+                    <span class="balloon-seal" aria-hidden="true" lang="ja">注</span>
                     <span>O que é Katakana?</span>
                 </div>
                 <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
@@ -128,8 +145,8 @@
                 O <strong>Katakana</strong> é o segundo alfabeto japonês. Tem os MESMOS SONS do Hiragana,
                 mas com símbolos diferentes.<br><br>
                 <strong>Exemplo:</strong> ア = "a"  |  カ = "ka"  |  サ = "sa"<br><br>
-                📌 <strong>Usado para:</strong> palavras de origem estrangeira, nomes estrangeiros, onomatopeias, ênfase e outros contextos específicos.<br>
-                💡 <strong>Curiosidade:</strong> Seu nome em japonês seria escrito em Katakana!<br><br>
+                <strong>Usado para:</strong> palavras de origem estrangeira, nomes estrangeiros, onomatopeias, ênfase e outros contextos específicos.<br>
+                <strong>Curiosidade:</strong> Seu nome em japonês seria escrito em Katakana!<br><br>
                 Para quem está começando, o mais importante nesta etapa é desenvolver familiaridade com os caracteres e sua pronúncia.
             </div>
         </div>
@@ -138,7 +155,7 @@
         <div id="info-katakana-dakuten" class="info-balloon katakana hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-katakana-dakuten')">
                 <div class="balloon-title">
-                    <span class="balloon-icon">🔰</span>
+                    <span class="balloon-seal" aria-hidden="true" lang="ja">注</span>
                     <span>Sinais de Modificação (Dakuten & Handakuten)</span>
                 </div>
                 <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
@@ -147,7 +164,7 @@
                 Os sinais de modificação alteram a pronúncia dos caracteres básicos.<br><br>
                 <strong>Dakuten (゛)</strong>: Torna o som sonoro → カ (ka) vira ガ (ga)<br>
                 <strong>Handakuten (゜)</strong>: Modifica H para P → ハ (ha) vira パ (pa)<br><br>
-                📌 Muito usado em palavras estrangeiras e nomes próprios!
+                Muito usado em palavras estrangeiras e nomes próprios!
             </div>
         </div>
 
@@ -155,7 +172,7 @@
         <div id="info-katakana-yoon" class="info-balloon katakana hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-katakana-yoon')">
                 <div class="balloon-title">
-                    <span class="balloon-icon">📚</span>
+                    <span class="balloon-seal" aria-hidden="true" lang="ja">注</span>
                     <span>Junções (Yōon)</span>
                 </div>
                 <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
@@ -164,7 +181,7 @@
                 Combinações de dois caracteres que formam um único som.<br><br>
                 <strong>Como funciona:</strong> Um caractere da coluna "i" + ャ/ュ/ョ pequeno<br>
                 <strong>Exemplo:</strong> キ (ki) + ャ (ya pequeno) = キャ (kya)<br><br>
-                💡 Muito comum em palavras estrangeiras adaptadas para o japonês!
+                Muito comum em palavras estrangeiras adaptadas para o japonês!
             </div>
         </div>
 
@@ -172,7 +189,7 @@
         <div id="info-quiz" class="info-balloon quiz hidden">
             <div class="balloon-header" onclick="toggleBalloon('info-quiz')">
                 <div class="balloon-title">
-                    <span class="balloon-icon">💡</span>
+                    <span class="balloon-seal" aria-hidden="true" lang="ja">注</span>
                     <span>Como funciona o Quiz?</span>
                 </div>
                 <button class="balloon-toggle" type="button" aria-expanded="true" aria-label="Mostrar ou ocultar explicação">−</button>
@@ -180,50 +197,50 @@
             <div class="balloon-content">
                 Testamos se você consegue ler os caracteres!<br>
                 Você verá um símbolo (ex: あ) e deve escolher a pronúncia correta.<br><br>
-                📌 <strong>Dica:</strong> Estude as tabelas ANTES de fazer o quiz 😉<br>
-                📌 Você pode consultar as tabelas a qualquer momento: sua pergunta atual e sua pontuação continuam guardadas quando você voltar ao quiz.
+                <strong>Dica:</strong> Estude as tabelas ANTES de fazer o quiz 😉<br>
+                Você pode consultar as tabelas a qualquer momento: sua pergunta atual e sua pontuação continuam guardadas quando você voltar ao quiz.
             </div>
         </div>
 
         <!-- HIRAGANA BÁSICO -->
         <div id="hiragana-section" class="kana-section hidden">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana (ひらがな)</h2>
+            <h2 class="section-title">Hiragana (ひらがな)</h2>
             <div class="kana-grid" id="hiragana-grid"></div>
         </div>
 
         <!-- HIRAGANA DAKUTEN -->
         <div id="hiragana-dakuten-section" class="kana-section hidden">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana - Dakuten & Handakuten</h2>
+            <h2 class="section-title">Hiragana - Dakuten & Handakuten</h2>
             <div class="kana-grid-dakuten" id="hiragana-dakuten-grid"></div>
         </div>
 
         <!-- HIRAGANA YŌON -->
         <div id="hiragana-yoon-section" class="kana-section hidden">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Hiragana - Junções (Yōon)</h2>
+            <h2 class="section-title">Hiragana - Junções (Yōon)</h2>
             <div class="kana-grid-yoon" id="hiragana-yoon-grid"></div>
         </div>
 
         <!-- KATAKANA BÁSICO -->
         <div id="katakana-section" class="kana-section hidden">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #4facfe;">Katakana (カタカナ)</h2>
+            <h2 class="section-title">Katakana (カタカナ)</h2>
             <div class="kana-grid" id="katakana-grid"></div>
         </div>
 
         <!-- KATAKANA DAKUTEN -->
         <div id="katakana-dakuten-section" class="kana-section hidden">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #4facfe;">Katakana - Dakuten & Handakuten</h2>
+            <h2 class="section-title">Katakana - Dakuten & Handakuten</h2>
             <div class="kana-grid-dakuten" id="katakana-dakuten-grid"></div>
         </div>
 
         <!-- KATAKANA YŌON -->
         <div id="katakana-yoon-section" class="kana-section hidden">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #4facfe;">Katakana - Junções (Yōon)</h2>
+            <h2 class="section-title">Katakana - Junções (Yōon)</h2>
             <div class="kana-grid-yoon" id="katakana-yoon-grid"></div>
         </div>
 
         <!-- QUIZ -->
         <div id="quiz-section" class="quiz-section">
-            <h2 style="text-align: center; margin-bottom: 30px; color: #43e97b;">Quiz de Prática</h2>
+            <h2 class="section-title">Quiz de Prática</h2>
 
             <!-- MODALIDADES DO QUIZ (RF08 e RF09) -->
             <div class="quiz-type-menu" id="quiz-type-menu">
@@ -235,29 +252,51 @@
                 <div class="quiz-question" id="quiz-char">あ</div>
                 <div class="quiz-options" id="quiz-options"></div>
                 <button id="quiz-audio-btn" class="quiz-audio-btn hidden" onclick="playQuizAudio()" aria-label="Ouvir pronúncia do caractere">
-                    🔊 Ouvir pronúncia
+                    <svg class="icon-audio" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/></svg>
+                    Ouvir pronúncia
                 </button>
             </div>
             <div class="quiz-stats">
-                <div class="stat">Corretas: <span id="correct-count">0</span></div>
-                <div class="stat">Erradas: <span id="incorrect-count">0</span></div>
-                <div class="stat">Total: <span id="total-count">0</span></div>
+                <div class="stat stat-ok"><span class="stat-label">Corretas</span><span class="stat-value" id="correct-count">0</span></div>
+                <div class="stat stat-err"><span class="stat-label">Erradas</span><span class="stat-value" id="incorrect-count">0</span></div>
+                <div class="stat stat-total"><span class="stat-label">Total</span><span class="stat-value" id="total-count">0</span></div>
             </div>
 
             <!-- RESULTADO FINAL + PERCENTUAL (RF14) -->
             <div class="quiz-actions">
-                <button class="finish-quiz-btn" onclick="finishQuiz()">🏁 Finalizar Quiz</button>
+                <button class="finish-quiz-btn" onclick="finishQuiz()">Finalizar quiz</button>
             </div>
             <div id="quiz-result" class="quiz-result hidden" role="status" aria-live="polite"></div>
         </div>
 
         <!-- COMO ESTUDAR (RF06) -->
         <div id="guide-section" class="kana-section">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Como estudar</h2>
-            <p class="guide-intro">
-                O Projeto Kaizen foi desenvolvido para auxiliar quem está começando a estudar os alfabetos japoneses Hiragana e Katakana.<br><br>
-                Para aproveitar melhor a plataforma, recomendamos seguir uma sequência simples: primeiro conhecer os caracteres, depois ouvir suas pronúncias, praticar no quiz e revisar os conteúdos conforme sua dificuldade.
-            </p>
+            <h2 class="section-title">Como estudar</h2>
+            <div class="guide-intro">
+                <p>O Projeto Kaizen foi desenvolvido para auxiliar quem está começando a estudar os alfabetos japoneses Hiragana e Katakana.</p>
+                <p>Para aproveitar melhor a plataforma, recomendamos seguir uma sequência simples: primeiro conhecer os caracteres, depois ouvir suas pronúncias, praticar no quiz e revisar os conteúdos conforme sua dificuldade.</p>
+            </div>
+
+            <div class="guide-flow">
+                <h3 class="guide-flow-title">Fluxo recomendado</h3>
+                <div class="guide-flow-steps">
+                    <span class="flow-step">Conheça</span>
+                    <span class="flow-arrow" aria-hidden="true">→</span>
+                    <span class="flow-step">Ouça</span>
+                    <span class="flow-arrow" aria-hidden="true">→</span>
+                    <span class="flow-step">Pratique</span>
+                    <span class="flow-arrow" aria-hidden="true">→</span>
+                    <span class="flow-step">Confira</span>
+                    <span class="flow-arrow" aria-hidden="true">→</span>
+                    <span class="flow-step">Revise</span>
+                    <span class="flow-arrow" aria-hidden="true">→</span>
+                    <span class="flow-step">Repita</span>
+                </div>
+            </div>
+
+            <div class="guide-actions guide-actions-top">
+                <button class="guide-start-btn" onclick="changeMode('hiragana')">Começar pelo Hiragana →</button>
+            </div>
 
             <div class="guide-steps">
                 <div class="guide-step">
@@ -311,27 +350,10 @@
                 </div>
             </div>
 
-            <div class="guide-flow">
-                <h3 style="text-align: center; margin-bottom: 15px; color: #667eea;">Fluxo recomendado</h3>
-                <div class="guide-flow-steps">
-                    <span class="flow-step">Conheça</span>
-                    <span class="flow-arrow">→</span>
-                    <span class="flow-step">Ouça</span>
-                    <span class="flow-arrow">→</span>
-                    <span class="flow-step">Pratique</span>
-                    <span class="flow-arrow">→</span>
-                    <span class="flow-step">Confira</span>
-                    <span class="flow-arrow">→</span>
-                    <span class="flow-step">Revise</span>
-                    <span class="flow-arrow">→</span>
-                    <span class="flow-step">Repita</span>
-                </div>
-            </div>
-
-                        <!-- Dicas para Memorizar e Dicas de Pronúncia -->
+            <!-- Dicas para Memorizar e Dicas de Pronúncia -->
             <div class="guide-tips-grid">
                 <div class="guide-tips-box memory-tips">
-                    <h3 class="guide-tips-title">🧠 Dicas para memorizar</h3>
+                    <h3 class="guide-tips-title">Dicas para memorizar</h3>
                     <ul class="guide-tips-list">
                         <li>Estude poucos caracteres por vez.</li>
                         <li>Observe o formato antes de consultar a romanização.</li>
@@ -341,7 +363,7 @@
                     </ul>
                 </div>
                 <div class="guide-tips-box pronunciation-tips">
-                    <h3 class="guide-tips-title">🗣️ Dicas de pronúncia</h3>
+                    <h3 class="guide-tips-title">Dicas de pronúncia</h3>
                     <ul class="guide-tips-list">
                         <li><strong>Áudio como referência principal:</strong> A romanização em letras latinas é apenas uma aproximação. Para aprender a pronúncia real, utilize o áudio dos cards.</li>
                         <li><strong>Vogais curtas e puras:</strong> No japonês, as vogais (a, i, u, e, o) são faladas de forma limpa e constante, sem ditongar.</li>
@@ -359,7 +381,7 @@
 
         <!-- PROGRESSO (RF14, RF15, RF16) -->
         <div id="progress-section" class="kana-section hidden">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #667eea;">Seu Progresso</h2>
+            <h2 class="section-title">Seu Progresso</h2>
             <div class="progress-grid">
                 <div class="progress-stat">
                     <span class="progress-label">Quizzes realizados</span>
@@ -386,11 +408,13 @@
                 <div class="progress-category">
                     <h3>ひらがな Hiragana</h3>
                     <div class="progress-category-percent" id="progress-hiragana-percent">0%</div>
+                    <div class="progress-bar" aria-hidden="true"><span id="progress-hiragana-bar"></span></div>
                     <div class="progress-category-detail" id="progress-hiragana-detail">0 acertos / 0 erros</div>
                 </div>
                 <div class="progress-category">
                     <h3>カタカナ Katakana</h3>
                     <div class="progress-category-percent" id="progress-katakana-percent">0%</div>
+                    <div class="progress-bar" aria-hidden="true"><span id="progress-katakana-bar"></span></div>
                     <div class="progress-category-detail" id="progress-katakana-detail">0 acertos / 0 erros</div>
                 </div>
             </div>
@@ -401,7 +425,7 @@
             <p class="progress-note">Seu progresso é salvo neste dispositivo. Os dados não dependem de cadastro, servidor ou banco de dados.</p>
             <p class="progress-tip" id="progress-tip"></p>
         </div>
-    </div>
+        </main>
 
         <!-- Modal -->
         <div class="modal" id="kana-modal">
@@ -410,43 +434,69 @@
                 <div class="modal-char" id="modal-char">あ</div>
                 <div class="modal-romaji-container">
                     <div class="modal-romaji" id="modal-romaji">a</div>
-                    <div class="romaji-hint">
-                        <span class="hint-icon">ℹ️</span>
-                        <span class="hint-text">Romaji = pronúncia em letras latinas</span>
-                    </div>
-                </div>
-                <div class="modal-tip hidden" id="modal-tip">
-                    <span class="modal-tip-icon" aria-hidden="true">💡</span>
-                    <span class="modal-tip-text" id="modal-tip-text"></span>
+                    <div class="romaji-hint">Romaji = pronúncia em letras latinas</div>
                 </div>
                 <div class="audio-controls">
                     <button class="play-audio-btn" id="play-btn" onclick="playAudio()">
-                        🔊 Reproduzir Pronúncia
+                        <svg class="icon-audio" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/></svg>
+                        Ouvir pronúncia
                     </button>
+                </div>
+                <div class="modal-tip hidden" id="modal-tip">
+                    <span class="modal-tip-label">Dica</span>
+                    <span class="modal-tip-text" id="modal-tip-text"></span>
                 </div>
             </div>
         </div>
     </div>
     <footer class="footer">
-        <!-- Rodapé -->
         <div class="footer-content">
-            <h3 class="footer-title">Contatos</h3>
-            <div class="footer-links">
-                <a href="mailto:mauriciomilleroliveira@hotmail.com" class="footer-link">
-                    <span>mauriciomilleroliveira@<wbr>hotmail.com</span>
-                </a>
-                <a href="https://github.com/Varmundt" target="_blank" class="footer-link">
-                    <span>Varmundt</span>
-                </a>
+            <div class="footer-top">
+                <span class="footer-seal" aria-hidden="true" lang="ja">改善</span>
+                <div>
+                    <p class="footer-brand">Projeto Kaizen</p>
+                    <p class="footer-text">Ferramenta de apoio ao primeiro contato com Hiragana e Katakana.</p>
+                </div>
             </div>
-            <p class="footer-copyright">2026 Projeto Kaizen - Todos os direitos reservados.</p>
+
+            <h2 class="footer-title"><span>Contato</span></h2>
+            <ul class="footer-links">
+                <li>
+                    <a href="mailto:mauriciomilleroliveira@hotmail.com" class="footer-link">
+                        <svg class="footer-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.6 2 7.4 5.6L19.4 7H4.6zM4 17h16V9.2l-8 6.1-8-6.1V17z"/></svg>
+                        <span class="footer-link-body">
+                            <span class="footer-link-label">E-mail</span>
+                            <span class="footer-link-value">mauriciomilleroliveira@<wbr>hotmail.com</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/Varmundt" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        <svg class="footer-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>
+                        <span class="footer-link-body">
+                            <span class="footer-link-label">GitHub</span>
+                            <span class="footer-link-value">Varmundt</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <!-- Feedback: mesma família visual dos outros contatos -->
+                    <button class="footer-link feedback-btn" type="button" onclick="openFeedback()" aria-label="Enviar feedback sobre o Projeto Kaizen (abre um formulário em nova aba)">
+                        <svg class="footer-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 3h16a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H8l-4.3 3.6a.5.5 0 0 1-.7-.4V4a1 1 0 0 1 1-1zm2 5v2h12V8H6zm0 4v2h8v-2H6z"/></svg>
+                        <span class="footer-link-body">
+                            <span class="footer-link-label">Opinião</span>
+                            <span class="footer-link-value">Enviar feedback</span>
+                        </span>
+                    </button>
+                </li>
+            </ul>
+
+            <p class="footer-copyright">
+                &copy; 2026 Projeto Kaizen &middot;
+                <a class="footer-license" href="https://github.com/Varmundt/Projeto-Kaizen/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Licença Apache 2.0</a>
+            </p>
         </div>
     </footer>
-    <div class="feedback-container">
-        <button class="feedback-btn" type="button" onclick="openFeedback()" aria-label="Enviar feedback sobre o Projeto Kaizen">
-            💬 Feedback
-        </button>
-    </div>
     <!-- Script -->
     <script src="script.js"></script>
 </body>
